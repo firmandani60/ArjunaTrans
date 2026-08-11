@@ -2,9 +2,7 @@
 @section('title', 'Dashboard Admin')
 @section('content')
 
-{{-- Statistik Ringkasan --}}
 <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-
     <div class="rounded-2xl border border-sky-100 bg-white p-5 shadow-sm">
         <div class="flex items-center justify-between">
             <div>
@@ -67,7 +65,6 @@
     </div>
 </div>
 
-{{-- Grafik Garis Per Bulan --}}
 <div class="mt-6">
     <div class="overflow-hidden rounded-3xl border border-sky-100/90 bg-white/95 p-6 shadow-[0_20px_50px_rgba(15,52,94,0.09)] backdrop-blur">
         <div class="flex items-center justify-between">
@@ -83,9 +80,7 @@
     </div>
 </div>
 
-{{-- Grafik Lingkaran Per Armada --}}
 <div class="mt-6 grid grid-cols-1 gap-5 md:grid-cols-3">
-    {{-- Bus --}}
     <div class="overflow-hidden rounded-3xl border border-sky-100/90 bg-white/95 p-6 shadow-[0_20px_50px_rgba(15,52,94,0.09)] backdrop-blur">
         <div class="flex items-center justify-between">
             <h3 class="text-base font-bold text-slate-950">Bus</h3>
@@ -100,7 +95,6 @@
         </div>
     </div>
 
-    {{-- Elf --}}
     <div class="overflow-hidden rounded-3xl border border-sky-100/90 bg-white/95 p-6 shadow-[0_20px_50px_rgba(15,52,94,0.09)] backdrop-blur">
         <div class="flex items-center justify-between">
             <h3 class="text-base font-bold text-slate-950">Elf</h3>
@@ -115,7 +109,6 @@
         </div>
     </div>
 
-    {{-- Hiace --}}
     <div class="overflow-hidden rounded-3xl border border-sky-100/90 bg-white/95 p-6 shadow-[0_20px_50px_rgba(15,52,94,0.09)] backdrop-blur">
         <div class="flex items-center justify-between">
             <h3 class="text-base font-bold text-slate-950">Hiace</h3>
@@ -131,9 +124,7 @@
     </div>
 </div>
 
-{{-- Destinasi & Rute Terbaik --}}
 <div class="mt-6 grid grid-cols-1 gap-5 lg:grid-cols-2">
-    {{-- Grafik Persentase Destinasi --}}
     <div class="overflow-hidden rounded-3xl border border-sky-100/90 bg-white/95 p-6 shadow-[0_20px_50px_rgba(15,52,94,0.09)] backdrop-blur">
         <div class="flex items-center justify-between">
             <div>
@@ -152,7 +143,6 @@
         </div>
     </div>
 
-    {{-- Daftar Rute Terbaik --}}
     <div class="overflow-hidden rounded-3xl border border-sky-100/90 bg-white/95 p-6 shadow-[0_20px_50px_rgba(15,52,94,0.09)] backdrop-blur">
         <div class="flex items-center justify-between">
             <div>
@@ -219,152 +209,5 @@
 @endsection
 
 @push('scripts')
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // 1. Grafik Garis Armada per Bulan
-        const ctxLine = document.getElementById('armadaLineChart');
-        if (ctxLine) {
-            new Chart(ctxLine.getContext('2d'), {
-                type: 'line',
-                data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun'],
-                    datasets: [{
-                        label: 'Tersewa',
-                        data: [8, 10, 12, 15, 18, 20],
-                        borderColor: '#f97316',
-                        backgroundColor: 'rgba(249, 115, 22, 0.05)',
-                        fill: true,
-                        tension: 0.3,
-                        pointBackgroundColor: '#f97316',
-                        pointBorderColor: '#fff',
-                        pointBorderWidth: 2,
-                    }, {
-                        label: 'Tersedia',
-                        data: [16, 14, 12, 9, 6, 4],
-                        borderColor: '#94a3b8',
-                        backgroundColor: 'rgba(148, 163, 184, 0.05)',
-                        fill: true,
-                        tension: 0.3,
-                        pointBackgroundColor: '#94a3b8',
-                        pointBorderColor: '#fff',
-                        pointBorderWidth: 2,
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                            labels: {
-                                usePointStyle: true,
-                                pointStyle: 'circle',
-                                padding: 20,
-                                font: { size: 12, weight: 'bold' }
-                            }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: { color: 'rgba(0,0,0,0.04)' },
-                            ticks: { stepSize: 5 }
-                        },
-                        x: {
-                            grid: { display: false }
-                        }
-                    }
-                }
-            });
-        }
-
-        // 2. Donut Chart Bus
-        const ctxBus = document.getElementById('busDonutChart');
-        if (ctxBus) {
-            new Chart(ctxBus.getContext('2d'), {
-                type: 'doughnut',
-                data: {
-                    labels: ['Tersewa', 'Tersedia'],
-                    datasets: [{
-                        data: [8, 4],
-                        backgroundColor: ['#10b981', '#cbd5e1'],
-                        borderWidth: 0,
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '70%',
-                    plugins: { legend: { display: false } }
-                }
-            });
-        }
-
-        // 3. Donut Chart Elf
-        const ctxElf = document.getElementById('elfDonutChart');
-        if (ctxElf) {
-            new Chart(ctxElf.getContext('2d'), {
-                type: 'doughnut',
-                data: {
-                    labels: ['Tersewa', 'Tersedia'],
-                    datasets: [{
-                        data: [5, 3],
-                        backgroundColor: ['#10b981', '#cbd5e1'],
-                        borderWidth: 0,
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '70%',
-                    plugins: { legend: { display: false } }
-                }
-            });
-        }
-
-        // 4. Donut Chart Hiace
-        const ctxHiace = document.getElementById('hiaceDonutChart');
-        if (ctxHiace) {
-            new Chart(ctxHiace.getContext('2d'), {
-                type: 'doughnut',
-                data: {
-                    labels: ['Tersewa', 'Tersedia'],
-                    datasets: [{
-                        data: [2, 4],
-                        backgroundColor: ['#10b981', '#cbd5e1'],
-                        borderWidth: 0,
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '70%',
-                    plugins: { legend: { display: false } }
-                }
-            });
-        }
-
-        // 5. Doughnut Destinasi
-        const ctxDest = document.getElementById('destinasiDoughnutChart');
-        if (ctxDest) {
-            new Chart(ctxDest.getContext('2d'), {
-                type: 'doughnut',
-                data: {
-                    labels: ['Pantai', 'Ziarah', 'Taman'],
-                    datasets: [{
-                        data: [70, 20, 10],
-                        backgroundColor: ['#3b82f6', '#f59e0b', '#10b981'],
-                        borderWidth: 0,
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '65%',
-                    plugins: { legend: { display: false } }
-                }
-            });
-        }
-    });
-</script>
+    @vite('resources/js/dashboard-chart.js')
 @endpush
