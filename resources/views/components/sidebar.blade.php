@@ -63,9 +63,16 @@
     </nav>
 
     <div class="border-t border-gray-600 p-6">
-        <button class="flex w-full items-center justify-center gap-2 rounded-lg border border-gray-600 py-3 text-gray-300 transition duration-300 hover:bg-orange-400 hover:text-white">
+    <form action="{{ route('logout') }}" method="POST">
+        @csrf
+
+        <button
+            type="submit"
+            class="flex w-full items-center justify-center gap-2 rounded-lg border border-gray-600 py-3 text-gray-300 transition duration-300 hover:bg-orange-400 hover:text-white"
+        >
             <i data-lucide="log-out" class="h-5 w-5"></i>
             <span>Keluar</span>
         </button>
+    </form>
     </div>
 </aside>
