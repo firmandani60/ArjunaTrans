@@ -10,6 +10,11 @@
             <i data-lucide="layout-dashboard" class="h-5 w-5"></i>
             <span>Dashboard</span>
         </a>
+        <a href="{{ route('admin.data-master') }}" 
+            class="flex items-center gap-3 rounded-lg px-4 py-3 transition duration-300 hover:bg-orange-400 {{ request()->routeIs('admin.data-master') ? 'bg-orange-400 text-white font-medium' : 'text-gray-300' }}">
+            <i data-lucide="database" class="h-5 w-5"></i>
+            <span>Data Master</span>
+        </a>
         <a href="{{ route('admin.hero') }}" 
             class="flex items-center gap-3 rounded-lg px-4 py-3 transition duration-300 hover:bg-orange-400 {{ request()->routeIs('admin.hero') ? 'bg-orange-400 text-white font-medium' : 'text-gray-300' }}">
             <i data-lucide="image" class="h-5 w-5"></i>

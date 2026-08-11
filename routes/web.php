@@ -16,6 +16,10 @@ Route::get('/dashboard', function () {
     return view('admin.dashboard', $data);
 })->name('dashboard');
 
+Route::get('/admin/data-master', function () {
+    return view('admin.data-master');
+})->name('admin.data-master');
+
 Route::get('/admin/hero', function () {
     return view('admin.hero');
 })->name('admin.hero');
