@@ -23,7 +23,7 @@ class LandingController extends Controller
             'about' => AboutSection::with('galleryImages')->first(),
             'fleets' => Fleet::where('is_active', true)->orderBy('sort_order')->get(),
             'destinations' => Destination::where('is_active', true)->orderBy('sort_order')->get(),
-            'routes' => RentalRoute::where('is_active', true)->orderBy('sort_order')->get(),
+            'routes' => RentalRoute::with(['fleet', 'destination'])->where('is_active', true)->orderBy('sort_order')->get(),
             'orderSteps' => OrderStep::where('is_active', true)->orderBy('sort_order')->get(),
             'contact' => ContactSetting::first(),
         ]);

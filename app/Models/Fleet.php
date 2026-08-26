@@ -11,6 +11,8 @@ class Fleet extends Model
         'description', 
         'capacity', 
         'facilities', 
+        'unit_count',
+        'daily_price',
         'image_path', 
         'sort_order', 
         'is_active'
@@ -18,6 +20,8 @@ class Fleet extends Model
 
     protected function casts(): array { 
         return [
+            'unit_count' => 'integer',
+            'daily_price' => 'integer',
             'sort_order' => 'integer', 
             'is_active' => 'boolean'
         ]; 

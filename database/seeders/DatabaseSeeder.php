@@ -73,12 +73,12 @@ class DatabaseSeeder extends Seeder
         ]));
 
         collect([
-            ['Bus Medium Pariwisata', 'Medium Bus', 'Ideal untuk rombongan instansi atau gathering keluarga besar.', '34 Seat', 'Full AC', 'https://picsum.photos/seed/bus-medium/700/520'],
-            ['Isuzu Elf Long', 'Elf', 'Lincah dan nyaman untuk perjalanan antar kota yang efisien.', '19 Seat', 'Reclining Seat', 'https://picsum.photos/seed/elf-long/700/520'],
-            ['Kabin Executive', 'Premium', 'Interior premium untuk perjalanan yang lebih nyaman.', '12 Seat', 'Karaoke, Smart TV', 'https://picsum.photos/seed/executive-cabin/700/520'],
-            ['Unit Premium Red', 'VIP', 'Unit premium untuk perjalanan privat dan eksklusif.', '10 Seat', 'VIP Unit, Large Cabin', 'https://picsum.photos/seed/premium-red/700/520'],
+            ['Bus Medium Pariwisata', 'Medium Bus', 'Ideal untuk rombongan instansi atau gathering keluarga besar.', '34 Seat', 'Full AC', 4, 3200000, 'https://picsum.photos/seed/bus-medium/700/520'],
+            ['Isuzu Elf Long', 'Elf', 'Lincah dan nyaman untuk perjalanan antar kota yang efisien.', '19 Seat', 'Reclining Seat', 3, 1800000, 'https://picsum.photos/seed/elf-long/700/520'],
+            ['Kabin Executive', 'Premium', 'Interior premium untuk perjalanan yang lebih nyaman.', '12 Seat', 'Karaoke, Smart TV', 2, 2200000, 'https://picsum.photos/seed/executive-cabin/700/520'],
+            ['Unit Premium Red', 'VIP', 'Unit premium untuk perjalanan privat dan eksklusif.', '10 Seat', 'VIP Unit, Large Cabin', 2, 2500000, 'https://picsum.photos/seed/premium-red/700/520'],
         ])->each(fn ($row, $index) => Fleet::create([
-            'name' => $row[0], 'category' => $row[1], 'description' => $row[2], 'capacity' => $row[3], 'facilities' => $row[4], 'image_path' => $row[5], 'sort_order' => $index,
+            'name' => $row[0], 'category' => $row[1], 'description' => $row[2], 'capacity' => $row[3], 'facilities' => $row[4], 'unit_count' => $row[5], 'daily_price' => $row[6], 'image_path' => $row[7], 'sort_order' => $index,
         ]));
 
         collect([

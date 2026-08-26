@@ -1,73 +1,123 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminContentController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DataMasterController;
+use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\LandingController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+/*
+|--------------------------------------------------------------------------
+| Landing Page
+|--------------------------------------------------------------------------
+*/
+Route::get('/', LandingController::class)->name('home');
 
+/*
+|--------------------------------------------------------------------------
+| Login Admin
+|--------------------------------------------------------------------------
+*/
 Route::get('/login', [LoginController::class, 'showLoginForm'])
-    ->name('login')
-    ->middleware('guest');
+    ->name('login');
 
 Route::post('/login', [LoginController::class, 'login'])
-    ->name('login.post')
-    ->middleware('guest');
+    ->name('login.post');
 
 Route::post('/logout', [LoginController::class, 'logout'])
-    ->name('logout')
-    ->middleware('auth');
+    ->name('logout');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', function () {
-        $data = [
-            'totalArmada' => 24,
-            'totalDestinasi' => 18,
-            'totalPemesanan' => 342,
-            'totalPendapatan' => 'Rp 89,6 jt',
-        ];
+/*
+|--------------------------------------------------------------------------
+| Admin
+|--------------------------------------------------------------------------
+| Autentikasi memakai session sederhana dari LoginController.
+*/
+Route::middleware('admin.auth')->group(function () {
+    Route::get('/dashboard', DashboardController::class)
+        ->name('dashboard');
 
-        return view('admin.dashboard', $data);
-    })->name('dashboard');
+    Route::get('/admin/data-master', [DataMasterController::class, 'index'])
+        ->name('admin.data-master');
 
-    Route::get('/admin/data-master', function () {
-        return view('admin.data-master');
-    })->name('admin.data-master');
+    Route::post('/admin/data-master/armada', [DataMasterController::class, 'storeFleet'])
+        ->name('admin.data-master.armada.store');
+    Route::patch('/admin/data-master/armada/{fleet}', [DataMasterController::class, 'updateFleet'])
+        ->name('admin.data-master.armada.update');
+    Route::delete('/admin/data-master/armada/{fleet}', [DataMasterController::class, 'destroyFleet'])
+        ->name('admin.data-master.armada.destroy');
 
-    Route::get('/admin/hero', function () {
-        return view('admin.hero');
-    })->name('admin.hero');
+    Route::post('/admin/data-master/destinasi', [DataMasterController::class, 'storeDestination'])
+        ->name('admin.data-master.destinasi.store');
+    Route::patch('/admin/data-master/destinasi/{destination}', [DataMasterController::class, 'updateDestination'])
+        ->name('admin.data-master.destinasi.update');
+    Route::delete('/admin/data-master/destinasi/{destination}', [DataMasterController::class, 'destroyDestination'])
+        ->name('admin.data-master.destinasi.destroy');
 
-    Route::get('/admin/keunggulan', function () {
-        return view('admin.keunggulan');
-    })->name('admin.keunggulan');
+    Route::post('/admin/data-master/rute', [DataMasterController::class, 'storeRoute'])
+        ->name('admin.data-master.rute.store');
+    Route::patch('/admin/data-master/rute/{rentalRoute}', [DataMasterController::class, 'updateRoute'])
+        ->name('admin.data-master.rute.update');
+    Route::delete('/admin/data-master/rute/{rentalRoute}', [DataMasterController::class, 'destroyRoute'])
+        ->name('admin.data-master.rute.destroy');
 
-    Route::get('/admin/layanan', function () {
-        return view('admin.layanan');
-    })->name('admin.layanan');
+    // Upload media digunakan oleh layout admin untuk gambar hero, layanan, armada, dll.
+    Route::post('/admin/media', [MediaController::class, 'store'])
+        ->name('admin.media.store');
 
-    Route::get('/admin/tentang-kami', function () {
-        return view('admin.tentang-kami');
-    })->name('admin.tentang-kami');
+    // Hero
+    Route::get('/admin/hero', [AdminContentController::class, 'hero'])
+        ->name('admin.hero');
+    Route::post('/admin/hero', [AdminContentController::class, 'updateHero'])
+        ->name('admin.hero.update');
 
-    Route::get('/admin/armada', function () {
-        return view('admin.armada');
-    })->name('admin.armada');
+    // Keunggulan
+    Route::get('/admin/keunggulan', [AdminContentController::class, 'advantages'])
+        ->name('admin.keunggulan');
+    Route::post('/admin/keunggulan', [AdminContentController::class, 'updateAdvantages'])
+        ->name('admin.keunggulan.update');
 
-    Route::get('/admin/destinasi', function () {
-        return view('admin.destinasi');
-    })->name('admin.destinasi');
+    // Layanan
+    Route::get('/admin/layanan', [AdminContentController::class, 'services'])
+        ->name('admin.layanan');
+    Route::post('/admin/layanan', [AdminContentController::class, 'updateServices'])
+        ->name('admin.layanan.update');
 
-    Route::get('/admin/rute-harga', function () {
-        return view('admin.rute-harga');
-    })->name('admin.rute-harga');
+    // Tentang Kami
+    Route::get('/admin/tentang-kami', [AdminContentController::class, 'about'])
+        ->name('admin.tentang-kami');
+    Route::post('/admin/tentang-kami', [AdminContentController::class, 'updateAbout'])
+        ->name('admin.tentang-kami.update');
 
-    Route::get('/admin/cara-pesan', function () {
-        return view('admin.cara-pesan');
-    })->name('admin.cara-pesan');
+    // Armada
+    Route::get('/admin/armada', fn () => redirect()->route('admin.data-master', ['tab' => 'armada']))
+        ->name('admin.armada');
+    Route::post('/admin/armada', [AdminContentController::class, 'updateFleets'])
+        ->name('admin.armada.update');
 
-    Route::get('/admin/kontak', function () {
-        return view('admin.kontak');
-    })->name('admin.kontak');
+    // Destinasi
+    Route::get('/admin/destinasi', fn () => redirect()->route('admin.data-master', ['tab' => 'destinasi']))
+        ->name('admin.destinasi');
+    Route::post('/admin/destinasi', [AdminContentController::class, 'updateDestinations'])
+        ->name('admin.destinasi.update');
+
+    // Rute & Harga
+    Route::get('/admin/rute-harga', fn () => redirect()->route('admin.data-master', ['tab' => 'rute']))
+        ->name('admin.rute-harga');
+    Route::post('/admin/rute-harga', [AdminContentController::class, 'updateRoutes'])
+        ->name('admin.rute-harga.update');
+
+    // Cara Pesan
+    Route::get('/admin/cara-pesan', [AdminContentController::class, 'orderSteps'])
+        ->name('admin.cara-pesan');
+    Route::post('/admin/cara-pesan', [AdminContentController::class, 'updateOrderSteps'])
+        ->name('admin.cara-pesan.update');
+
+    // Kontak
+    Route::get('/admin/kontak', [AdminContentController::class, 'contact'])
+        ->name('admin.kontak');
+    Route::post('/admin/kontak', [AdminContentController::class, 'updateContact'])
+        ->name('admin.kontak.update');
 });

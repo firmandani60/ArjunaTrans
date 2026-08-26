@@ -75,7 +75,9 @@
             <div class="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
                 @forelse($advantages as $advantage)
                     <article class="rounded-[28px] border border-orange-100 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
-                        <div class="grid h-12 w-12 place-items-center rounded-2xl bg-orange-50 font-black text-orange-600">{{ str($advantage->title)->substr(0, 1)->upper() }}</div>
+                        <div class="grid h-12 w-12 place-items-center rounded-2xl bg-orange-50 text-orange-600">
+                            <i data-lucide="{{ $advantage->icon ?: 'star' }}" class="h-6 w-6"></i>
+                        </div>
                         <h3 class="mt-6 text-lg font-black">{{ $advantage->title }}</h3>
                         <p class="mt-3 text-sm leading-7 text-stone-600">{{ $advantage->description }}</p>
                     </article>
@@ -156,9 +158,20 @@
                             <h3 class="mt-4 text-lg font-black">{{ $fleet->name }}</h3>
                             <p class="mt-2 text-sm leading-6 text-stone-600">{{ $fleet->description }}</p>
                             <div class="mt-5 flex flex-wrap gap-2 text-xs font-bold text-stone-600">
-                                <span class="rounded-lg bg-white px-2.5 py-1.5">{{ $fleet->capacity }}</span>
-                                <span class="rounded-lg bg-white px-2.5 py-1.5">{{ $fleet->facilities }}</span>
+                                @if($fleet->capacity)<span class="rounded-lg bg-white px-2.5 py-1.5">{{ $fleet->capacity }}</span>@endif
+                                @if($fleet->facilities)
+                                    @foreach(preg_split('/\s*[|,]\s*/', $fleet->facilities, -1, PREG_SPLIT_NO_EMPTY) as $facility)
+                                        <span class="rounded-lg bg-white px-2.5 py-1.5">{{ trim($facility) }}</span>
+                                    @endforeach
+                                @endif
+                                @if(($fleet->unit_count ?? 0) > 0)<span class="rounded-lg bg-white px-2.5 py-1.5">{{ $fleet->unit_count }} Unit</span>@endif
                             </div>
+                            @if(($fleet->daily_price ?? 0) > 0)
+                                <div class="mt-4 flex items-center justify-between border-t border-orange-100 pt-4">
+                                    <span class="text-xs font-bold text-stone-500">Mulai dari</span>
+                                    <span class="text-sm font-black text-orange-600">Rp {{ number_format($fleet->daily_price, 0, ',', '.') }} / hari</span>
+                                </div>
+                            @endif
                         </div>
                     </article>
                 @endforeach
@@ -209,19 +222,21 @@
                     <article class="overflow-hidden rounded-[26px] border border-orange-100 bg-white shadow-sm">
                         <div class="relative">
                             <img src="{{ $imageUrl($route->image_path, 'https://picsum.photos/seed/route-'.$route->id.'/700/520') }}" alt="{{ $route->destination_name }}" class="h-44 w-full object-cover">
-                            <span class="absolute left-4 top-4 rounded-lg bg-orange-600 px-3 py-1 text-[10px] font-black uppercase text-white">{{ str_replace('_', ' ', $route->category) }}</span>
+                            <span class="absolute left-4 top-4 rounded-lg bg-orange-600 px-3 py-1 text-[10px] font-black uppercase text-white">{{ $route->fleet?->name ?? $route->fleet_name ?? 'Armada' }}</span>
                         </div>
                         <div class="p-5">
-                            <h3 class="text-xl font-black">{{ $route->destination_name }}</h3>
-                            <p class="mt-1 text-xs text-stone-500">{{ $route->route_description }}</p>
-                            <div class="mt-5 grid grid-cols-2 gap-3">
-                                <div class="rounded-xl bg-orange-50 p-3">
-                                    <p class="text-[10px] font-bold uppercase text-stone-500">Elf Long</p>
-                                    <p class="mt-1 text-sm font-black text-orange-700">Rp {{ number_format($route->elf_long_price ?? 0, 0, ',', '.') }}</p>
-                                </div>
-                                <div class="rounded-xl bg-orange-50 p-3">
-                                    <p class="text-[10px] font-bold uppercase text-stone-500">Medium Bus</p>
-                                    <p class="mt-1 text-sm font-black text-orange-700">Rp {{ number_format($route->medium_bus_price ?? 0, 0, ',', '.') }}</p>
+                            <h3 class="text-xl font-black">{{ $route->destination?->name ?? $route->destination_name }}</h3>
+                            <p class="mt-1 text-xs leading-5 text-stone-500">{{ $route->route_description }}</p>
+                            <div class="mt-5 rounded-xl bg-orange-50 p-4">
+                                <div class="flex items-center justify-between gap-3">
+                                    <div>
+                                        <p class="text-[10px] font-bold uppercase tracking-wider text-stone-500">Harga Sewa</p>
+                                        <p class="mt-1 text-lg font-black text-orange-700">Rp {{ number_format($route->price ?? $route->elf_long_price ?? $route->medium_bus_price ?? 0, 0, ',', '.') }}</p>
+                                    </div>
+                                    <div class="rounded-lg bg-white px-3 py-2 text-right">
+                                        <p class="text-[10px] font-bold uppercase text-stone-400">Armada</p>
+                                        <p class="mt-0.5 text-xs font-black text-stone-700">{{ $route->fleet?->name ?? $route->fleet_name ?? '-' }}</p>
+                                    </div>
                                 </div>
                             </div>
                             <a href="{{ $waLink }}" target="_blank" class="mt-5 block rounded-xl bg-[#fff1eb] px-4 py-2.5 text-center text-xs font-black text-orange-700 transition hover:bg-orange-100">Pesan Armada →</a>
