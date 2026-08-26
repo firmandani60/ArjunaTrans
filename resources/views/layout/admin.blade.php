@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Admin Arjuna Trans')</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -33,6 +34,32 @@
                 lucide.createIcons();
             }
         });
+    </script>
+
+
+    <script>
+        window.arjunaRequest = async function (url, options = {}) {
+            const headers = new Headers(options.headers || {});
+            headers.set('Accept', 'application/json');
+            headers.set('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').content);
+            if (options.body && !(options.body instanceof FormData) && !headers.has('Content-Type')) {
+                headers.set('Content-Type', 'application/json');
+            }
+
+            const response = await fetch(url, { ...options, headers });
+            const payload = await response.json().catch(() => ({}));
+            if (!response.ok) {
+                const firstError = payload.errors ? Object.values(payload.errors).flat()[0] : null;
+                throw new Error(firstError || payload.message || 'Terjadi kesalahan saat menyimpan data.');
+            }
+            return payload;
+        };
+
+        window.arjunaUploadImage = async function (file) {
+            const form = new FormData();
+            form.append('image', file);
+            return window.arjunaRequest('{{ route('admin.media.store') }}', { method: 'POST', body: form });
+        };
     </script>
 
     @stack('scripts')

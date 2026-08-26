@@ -137,103 +137,51 @@
 <script>
     function layananManager() {
         return {
-            layanan: [
-                {
-                    id: 1,
-                    ikon: 'school',
-                    judul: 'School Bus',
-                    deskripsi: 'Layanan transportasi antar-jemput sekolah yang aman, nyaman, dan tepat waktu untuk buah hati Anda.',
-                    gambarPreview: 'https://picsum.photos/seed/school/400/300'
-                },
-                {
-                    id: 2,
-                    ikon: 'mosque',
-                    judul: 'Religious Journey',
-                    deskripsi: 'Pendamping setia untuk perjalanan religi dan ziarah dengan fasilitas mendukung kekhusyukan ibadah.',
-                    gambarPreview: 'https://picsum.photos/seed/religious/400/300'
-                },
-                {
-                    id: 3,
-                    ikon: 'business_center',
-                    judul: 'Bus Charter',
-                    deskripsi: 'Jasa penyewaan bus secara premium untuk berbagai kebutuhan perjalanan Anda.',
-                    gambarPreview: 'https://picsum.photos/seed/charter/400/300'
-                },
-                {
-                    id: 4,
-                    ikon: 'groups',
-                    judul: 'Company Outing',
-                    deskripsi: 'Solusi transportasi terpercaya untuk kegiatan gathering, outing, dan perjalanan korporat.',
-                    gambarPreview: 'https://picsum.photos/seed/outing/400/300'
-                }
-            ],
-            nextId: 5,
+            layanan: @json($layanan),
+            nextId: 100000,
             showNewForm: false,
-            newItem: {
-                ikon: 'star',
-                judul: '',
-                deskripsi: '',
-                gambarPreview: null,
-                gambarFile: null
-            },
+            newItem: { ikon: 'star', judul: '', deskripsi: '', gambarPreview: null, gambarPath: null },
 
-            handleGambarBaru(event, target) {
+            async handleGambarBaru(event) {
                 const file = event.target.files[0];
                 if (!file) return;
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    this.newItem.gambarPreview = e.target.result;
-                };
-                reader.readAsDataURL(file);
+                try {
+                    const uploaded = await window.arjunaUploadImage(file);
+                    this.newItem.gambarPreview = uploaded.url;
+                    this.newItem.gambarPath = uploaded.path;
+                } catch (error) { alert(error.message); }
             },
-
-            handleGambarItem(event, index) {
+            async handleGambarItem(event, index) {
                 const file = event.target.files[0];
                 if (!file) return;
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    this.layanan[index].gambarPreview = e.target.result;
-                };
-                reader.readAsDataURL(file);
+                try {
+                    const uploaded = await window.arjunaUploadImage(file);
+                    this.layanan[index].gambarPreview = uploaded.url;
+                    this.layanan[index].gambarPath = uploaded.path;
+                } catch (error) { alert(error.message); }
             },
-
             simpanTambah() {
-                if (!this.newItem.judul.trim()) {
-                    alert('Judul harus diisi.');
-                    return;
-                }
-                this.layanan.push({
-                    id: this.nextId++,
-                    ikon: this.newItem.ikon || 'star',
-                    judul: this.newItem.judul,
-                    deskripsi: this.newItem.deskripsi || '',
-                    gambarPreview: this.newItem.gambarPreview || null
-                });
+                if (!this.newItem.judul.trim()) return alert('Judul harus diisi.');
+                this.layanan.push({ id: 'new-' + this.nextId++, ...this.newItem });
                 this.batalTambah();
             },
-
             batalTambah() {
                 this.showNewForm = false;
-                this.newItem = { ikon: 'star', judul: '', deskripsi: '', gambarPreview: null };
+                this.newItem = { ikon: 'star', judul: '', deskripsi: '', gambarPreview: null, gambarPath: null };
             },
-
             hapusLayanan(index) {
-                if (this.layanan.length <= 1) {
-                    alert('Minimal harus ada satu layanan.');
-                    return;
-                }
-                if (confirm('Hapus layanan ini?')) {
-                    this.layanan.splice(index, 1);
-                }
+                if (this.layanan.length <= 1) return alert('Minimal harus ada satu layanan.');
+                if (confirm('Hapus layanan ini?')) this.layanan.splice(index, 1);
             },
-
-            startDrag(event, index) {
-                alert('Fitur drag & drop untuk mengurutkan (akan diimplementasikan nanti).');
-            },
-
-            saveAll() {
-                alert('Data layanan berhasil disimpan (simulasi).');
-                console.log(this.layanan);
+            startDrag() { alert('Urutan yang tampil mengikuti urutan daftar saat disimpan.'); },
+            async saveAll() {
+                try {
+                    const response = await window.arjunaRequest(@json(route('admin.layanan.update')), {
+                        method: 'POST', body: JSON.stringify({ items: this.layanan })
+                    });
+                    this.layanan = response.data;
+                    alert(response.message);
+                } catch (error) { alert(error.message); }
             }
         };
     }

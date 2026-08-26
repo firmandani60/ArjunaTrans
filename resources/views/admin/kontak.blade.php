@@ -111,19 +111,12 @@
 <script>
     function kontakManager() {
         return {
-            data: {
-                deskripsi: 'Arjuna Trans adalah penyedia layanan transportasi terpercaya yang melayani berbagai rute antar kota dengan armada modern dan fasilitas premium, berkomitmen memberikan kenyamanan dan keamanan bagi setiap penumpang.',
-                alamat: 'Jl. Raya Utama No. 123, Komplek Perkantoran Indah, Jakarta Pusat, 10110, Indonesia.',
-                whatsapp: '+62 812 3456 7890',
-                email: 'info@arjunatrans.com',
-                instagram: 'https://instagram.com/arjunatrans',
-                facebook: 'https://facebook.com/arjunatrans',
-                youtube: 'https://youtube.com/@arjunatrans'
-            },
-
-            saveAll() {
-                alert('Data kontak berhasil disimpan (simulasi).');
-                console.log(this.data);
+            data: @json($kontak),
+            async saveAll() {
+                try {
+                    const response = await window.arjunaRequest(@json(route('admin.kontak.update')), { method: 'POST', body: JSON.stringify(this.data) });
+                    this.data = response.data; alert(response.message);
+                } catch (error) { alert(error.message); }
             }
         };
     }

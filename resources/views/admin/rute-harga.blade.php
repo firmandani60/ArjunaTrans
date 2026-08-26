@@ -180,121 +180,30 @@
 <script>
     function ruteManager() {
         return {
-            rute: [
-                {
-                    id: 1,
-                    nama_destinasi: 'Trenggalek',
-                    deskripsi_rute: 'Rute Pantai Prigi & Pasir Putih',
-                    harga_elf_long: '1800000',
-                    harga_medium_bus: '3400000',
-                    kategori: 'popular',
-                    gambarPreview: 'https://picsum.photos/seed/trenggalek/400/300'
-                },
-                {
-                    id: 2,
-                    nama_destinasi: 'Wali 5',
-                    deskripsi_rute: 'Ziarah Religi Jawa Timur',
-                    harga_elf_long: '1850000',
-                    harga_medium_bus: '2750000',
-                    kategori: 'wisata_religi',
-                    gambarPreview: 'https://picsum.photos/seed/wali5/400/300'
-                },
-                {
-                    id: 3,
-                    nama_destinasi: 'Surabaya',
-                    deskripsi_rute: 'City Tour & Shopping',
-                    harga_elf_long: '1500000',
-                    harga_medium_bus: '2500000',
-                    kategori: 'metropolitan',
-                    gambarPreview: 'https://picsum.photos/seed/surabaya/400/300'
-                },
-                {
-                    id: 4,
-                    nama_destinasi: 'Bromo',
-                    deskripsi_rute: 'Sunrise!',
-                    harga_elf_long: '2200000',
-                    harga_medium_bus: '3500000',
-                    kategori: 'advent',
-                    gambarPreview: 'https://picsum.photos/seed/bromo/400/300'
-                }
-            ],
-            nextId: 5,
+            rute: @json($rute),
+            nextId: 100000,
             showNewForm: false,
-            newItem: {
-                nama_destinasi: '',
-                deskripsi_rute: '',
-                harga_elf_long: '',
-                harga_medium_bus: '',
-                kategori: 'popular',
-                gambarPreview: null
-            },
+            newItem: { nama_destinasi: '', deskripsi_rute: '', harga_elf_long: '', harga_medium_bus: '', kategori: 'popular', gambarPreview: null, gambarPath: null },
 
-            handleGambarBaru(event) {
-                const file = event.target.files[0];
-                if (!file) return;
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    this.newItem.gambarPreview = e.target.result;
-                };
-                reader.readAsDataURL(file);
+            async handleGambarBaru(event) {
+                const file = event.target.files[0]; if (!file) return;
+                try { const uploaded = await window.arjunaUploadImage(file); this.newItem.gambarPreview = uploaded.url; this.newItem.gambarPath = uploaded.path; }
+                catch (error) { alert(error.message); }
             },
-
-            handleGambarItem(event, index) {
-                const file = event.target.files[0];
-                if (!file) return;
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    this.rute[index].gambarPreview = e.target.result;
-                };
-                reader.readAsDataURL(file);
+            async handleGambarItem(event, index) {
+                const file = event.target.files[0]; if (!file) return;
+                try { const uploaded = await window.arjunaUploadImage(file); this.rute[index].gambarPreview = uploaded.url; this.rute[index].gambarPath = uploaded.path; }
+                catch (error) { alert(error.message); }
             },
-
-            simpanTambah() {
-                if (!this.newItem.nama_destinasi.trim()) {
-                    alert('Nama destinasi harus diisi.');
-                    return;
-                }
-                this.rute.push({
-                    id: this.nextId++,
-                    nama_destinasi: this.newItem.nama_destinasi,
-                    deskripsi_rute: this.newItem.deskripsi_rute || '',
-                    harga_elf_long: this.newItem.harga_elf_long || '0',
-                    harga_medium_bus: this.newItem.harga_medium_bus || '0',
-                    kategori: this.newItem.kategori || 'popular',
-                    gambarPreview: this.newItem.gambarPreview || null
-                });
-                this.batalTambah();
-            },
-
-            batalTambah() {
-                this.showNewForm = false;
-                this.newItem = {
-                    nama_destinasi: '',
-                    deskripsi_rute: '',
-                    harga_elf_long: '',
-                    harga_medium_bus: '',
-                    kategori: 'popular',
-                    gambarPreview: null
-                };
-            },
-
-            hapusRute(index) {
-                if (this.rute.length <= 1) {
-                    alert('Minimal harus ada satu rute.');
-                    return;
-                }
-                if (confirm('Hapus rute ini?')) {
-                    this.rute.splice(index, 1);
-                }
-            },
-
-            startDrag(event, index) {
-                alert('Fitur drag & drop untuk mengurutkan (akan diimplementasikan nanti).');
-            },
-
-            saveAll() {
-                alert('Data rute berhasil disimpan (simulasi).');
-                console.log(this.rute);
+            simpanTambah() { if (!this.newItem.nama_destinasi.trim()) return alert('Nama destinasi harus diisi.'); this.rute.push({ id: 'new-' + this.nextId++, ...this.newItem }); this.batalTambah(); },
+            batalTambah() { this.showNewForm = false; this.newItem = { nama_destinasi: '', deskripsi_rute: '', harga_elf_long: '', harga_medium_bus: '', kategori: 'popular', gambarPreview: null, gambarPath: null }; },
+            hapusRute(index) { if (this.rute.length <= 1) return alert('Minimal harus ada satu rute.'); if (confirm('Hapus rute ini?')) this.rute.splice(index, 1); },
+            startDrag() { alert('Urutan yang tampil mengikuti urutan daftar saat disimpan.'); },
+            async saveAll() {
+                try {
+                    const response = await window.arjunaRequest(@json(route('admin.rute-harga.update')), { method: 'POST', body: JSON.stringify({ items: this.rute }) });
+                    this.rute = response.data; alert(response.message);
+                } catch (error) { alert(error.message); }
             }
         };
     }

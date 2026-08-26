@@ -86,55 +86,16 @@
 <script>
     function caraPesanManager() {
         return {
-            langkah: [
-                {
-                    id: 1,
-                    judul: 'Informasi Ketersediaan',
-                    deskripsi: 'Hubungi Customer Service kami via WhatsApp untuk menanyakan ketersediaan armada pada tanggal yang Anda inginkan.'
-                },
-                {
-                    id: 2,
-                    judul: 'Konfirmasi Titik Jemput',
-                    deskripsi: 'Berikan detail alamat penjemputan dan rute tujuan. Kami akan mengirimkan invoice digital untuk Anda.'
-                },
-                {
-                    id: 3,
-                    judul: 'Penjemputan Tepat Waktu',
-                    deskripsi: 'Sopir kami akan menghubungi Anda H-1 jam sebelum jam keberangkatan untuk memastikan posisi Anda siap dijemput.'
-                },
-                {
-                    id: 4,
-                    judul: 'Pembayaran Akhir',
-                    deskripsi: 'Lakukan pelunasan pembayaran langsung kepada sopir sebelum perjalanan dimulai atau via transfer bank.'
-                }
-            ],
-            nextId: 5,
-
-            tambahLangkah() {
-                this.langkah.push({
-                    id: this.nextId++,
-                    judul: 'Langkah Baru',
-                    deskripsi: 'Tulis deskripsi langkah di sini...'
-                });
-            },
-
-            hapusLangkah(index) {
-                if (this.langkah.length <= 1) {
-                    alert('Minimal harus ada satu langkah.');
-                    return;
-                }
-                if (confirm('Hapus langkah ini?')) {
-                    this.langkah.splice(index, 1);
-                }
-            },
-
-            startDrag(event, index) {
-                alert('Fitur drag & drop untuk mengurutkan (akan diimplementasikan nanti).');
-            },
-
-            saveAll() {
-                alert('Data cara pemesanan berhasil disimpan (simulasi).');
-                console.log(this.langkah);
+            langkah: @json($langkah),
+            nextId: 100000,
+            tambahLangkah() { this.langkah.push({ id: 'new-' + this.nextId++, judul: 'Langkah Baru', deskripsi: 'Tulis deskripsi langkah di sini...' }); },
+            hapusLangkah(index) { if (this.langkah.length <= 1) return alert('Minimal harus ada satu langkah.'); if (confirm('Hapus langkah ini?')) this.langkah.splice(index, 1); },
+            startDrag() { alert('Urutan yang tampil mengikuti urutan daftar saat disimpan.'); },
+            async saveAll() {
+                try {
+                    const response = await window.arjunaRequest(@json(route('admin.cara-pesan.update')), { method: 'POST', body: JSON.stringify({ items: this.langkah }) });
+                    this.langkah = response.data; alert(response.message);
+                } catch (error) { alert(error.message); }
             }
         };
     }

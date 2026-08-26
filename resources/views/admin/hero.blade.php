@@ -92,27 +92,36 @@
 <script>
     function heroEditor() {
         return {
-            hero: {
-                judul: 'Perjalanan Aman dan Nyaman',
-                sub_deskripsi: 'Nikmati pengalaman perjalanan terbaik bersama armada modern kami. Layanan profesional dengan rute terlengkap di seluruh pulau.',
-                tombol_label: 'Pesan Sekarang',
-                tombol_link: '/booking',
-                gambar: null,
-                gambar_nama: 'Arjuna Trans - Pariwisata',
-                gambar_keterangan: 'Astar Jampat Dior Tp Dior'
-            },
-            handleImageUpload(event) {
+            hero: @json($hero),
+            saving: false,
+
+            async handleImageUpload(event) {
                 const file = event.target.files[0];
                 if (!file) return;
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    this.hero.gambar = e.target.result;
-                    this.hero.gambar_nama = file.name;
-                };
-                reader.readAsDataURL(file);
+                try {
+                    const uploaded = await window.arjunaUploadImage(file);
+                    this.hero.gambar = uploaded.url;
+                    this.hero.gambar_path = uploaded.path;
+                    this.hero.gambar_nama = uploaded.name;
+                } catch (error) {
+                    alert(error.message);
+                }
             },
-            saveHero() {
-                alert('Data hero berhasil disimpan (simulasi).');
+
+            async saveHero() {
+                this.saving = true;
+                try {
+                    const response = await window.arjunaRequest(@json(route('admin.hero.update')), {
+                        method: 'POST',
+                        body: JSON.stringify(this.hero)
+                    });
+                    this.hero = response.data;
+                    alert(response.message);
+                } catch (error) {
+                    alert(error.message);
+                } finally {
+                    this.saving = false;
+                }
             }
         }
     }

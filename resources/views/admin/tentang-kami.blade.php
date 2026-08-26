@@ -44,7 +44,7 @@
                 <div class="mt-4 grid grid-cols-3 gap-3">
                     <template x-for="(foto, index) in galeri" :key="index">
                         <div class="relative group">
-                            <img :src="foto" alt="Galeri armada" class="h-24 w-full rounded-lg object-cover ring-1 ring-slate-200">
+                            <img :src="foto.url" alt="Galeri armada" class="h-24 w-full rounded-lg object-cover ring-1 ring-slate-200">
                             <button type="button" @click="hapusFoto(index)" class="absolute -top-1 -right-1 grid h-5 w-5 place-items-center rounded-full bg-rose-500 text-[10px] font-bold text-white opacity-0 transition group-hover:opacity-100 hover:bg-rose-600">
                                 ✕
                             </button>
@@ -91,8 +91,8 @@
                 <div class="mt-4">
                     <p class="text-[10px] font-bold uppercase text-slate-400">Galeri Armada</p>
                     <div class="mt-2 grid grid-cols-3 gap-2">
-                        <template x-for="foto in galeri" :key="foto">
-                            <img :src="foto" alt="Galeri" class="h-16 w-full rounded-lg object-cover ring-1 ring-slate-200">
+                        <template x-for="foto in galeri" :key="foto.id || foto.url">
+                            <img :src="foto.url" alt="Galeri" class="h-16 w-full rounded-lg object-cover ring-1 ring-slate-200">
                         </template>
                         <template x-if="galeri.length === 0">
                             <div class="col-span-3 py-2 text-center text-xs text-slate-400">Tidak ada foto</div>
@@ -107,44 +107,41 @@
 
 <script>
     function tentangKamiManager() {
+        const initial = @json($tentang);
         return {
-            deskripsi: 'Arjuna Trans adalah penyedia layanan transportasi terkemuka yang berdedikasi untuk memberikan pengalaman perjalanan yang aman, nyaman, dan terpercaya. Berdiri sejak tahun 2010, kami telah melayani ribuan pelanggan di seluruh Indonesia dengan armada modern dan fasilitas premium.',
-            visi: 'Menjadi perusahaan penyedia jasa transportasi darat terbaik dan terpercaya di Indonesia dengan mengutamakan keselamatan dan kenyamanan pelanggan.',
-            misi: 'Memberikan pelayanan transportasi yang aman, nyaman, dan tepat waktu dengan armada yang terawat dan tenaga profesional yang berdedikasi.',
-            galeri: [
-                'https://picsum.photos/seed/bus1/400/300',
-                'https://picsum.photos/seed/bus2/400/300',
-                'https://picsum.photos/seed/bus3/400/300'
-            ],
+            deskripsi: initial.deskripsi || '',
+            visi: initial.visi || '',
+            misi: initial.misi || '',
+            galeri: initial.galeri || [],
 
-            tambahFoto(event) {
-                const files = event.target.files;
-                for (let file of files) {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        this.galeri.push(e.target.result);
-                    };
-                    reader.readAsDataURL(file);
+            async tambahFoto(event) {
+                const files = Array.from(event.target.files || []);
+                for (const file of files) {
+                    try {
+                        const uploaded = await window.arjunaUploadImage(file);
+                        this.galeri.push({ id: null, path: uploaded.path, url: uploaded.url });
+                    } catch (error) {
+                        alert(error.message);
+                    }
                 }
                 event.target.value = '';
             },
-
             hapusFoto(index) {
-                if (this.galeri.length <= 1) {
-                    alert('Minimal harus ada satu foto galeri.');
-                    return;
-                }
+                if (this.galeri.length <= 1) return alert('Minimal harus ada satu foto galeri.');
                 this.galeri.splice(index, 1);
             },
-
-            saveAll() {
-                alert('Data tentang kami berhasil disimpan (simulasi).');
-                console.log({
-                    deskripsi: this.deskripsi,
-                    visi: this.visi,
-                    misi: this.misi,
-                    galeri: this.galeri
-                });
+            async saveAll() {
+                try {
+                    const response = await window.arjunaRequest(@json(route('admin.tentang-kami.update')), {
+                        method: 'POST',
+                        body: JSON.stringify({ deskripsi: this.deskripsi, visi: this.visi, misi: this.misi, galeri: this.galeri })
+                    });
+                    this.deskripsi = response.data.deskripsi || '';
+                    this.visi = response.data.visi || '';
+                    this.misi = response.data.misi || '';
+                    this.galeri = response.data.galeri || [];
+                    alert(response.message);
+                } catch (error) { alert(error.message); }
             }
         };
     }

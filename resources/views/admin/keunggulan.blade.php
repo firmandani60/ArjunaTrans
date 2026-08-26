@@ -122,19 +122,10 @@
 <script>
     function keunggulanManager() {
         return {
-            keunggulan: [
-                { id: 1, ikon: 'manage_accounts', judul: 'Kru Handal', deskripsi: 'Pengemudi terlatih Defensive Driving Course dengan standar Pelayanan Prima setiap hari.' },
-                { id: 2, ikon: 'ads_click', judul: 'Reservasi Mudah', deskripsi: 'Proses booking transparan, cepat, dan aman langsung via WhatsApp atau sistem kami.' },
-                { id: 3, ikon: 'verified', judul: 'Legalitas Resmi', deskripsi: 'Terakreditasi ISO 9001:2015 dan SMK3 resmi dari Kementerian Perhubungan RI.' },
-                { id: 4, ikon: 'build', judul: 'Unit Terawat', deskripsi: 'Pengecekan teknis berkala oleh mekanik ahli di bengkel resmi.' }
-            ],
-            nextId: 5,
+            keunggulan: @json($keunggulan),
+            nextId: 100000,
             showNewForm: false,
-            newItem: {
-                ikon: 'star',
-                judul: '',
-                deskripsi: ''
-            },
+            newItem: { ikon: 'star', judul: '', deskripsi: '' },
 
             simpanTambah() {
                 if (!this.newItem.judul.trim()) {
@@ -142,36 +133,35 @@
                     return;
                 }
                 this.keunggulan.push({
-                    id: this.nextId++,
+                    id: 'new-' + this.nextId++,
                     ikon: this.newItem.ikon || 'star',
                     judul: this.newItem.judul,
                     deskripsi: this.newItem.deskripsi || ''
                 });
                 this.batalTambah();
             },
-
             batalTambah() {
                 this.showNewForm = false;
                 this.newItem = { ikon: 'star', judul: '', deskripsi: '' };
             },
-
             hapusKeunggulan(index) {
-                if (this.keunggulan.length <= 1) {
-                    alert('Minimal harus ada satu keunggulan.');
-                    return;
-                }
-                if (confirm('Hapus keunggulan ini?')) {
-                    this.keunggulan.splice(index, 1);
-                }
+                if (this.keunggulan.length <= 1) return alert('Minimal harus ada satu keunggulan.');
+                if (confirm('Hapus keunggulan ini?')) this.keunggulan.splice(index, 1);
             },
-
-            startDrag(event, index) {
-                alert('Fitur drag & drop untuk mengurutkan (akan diimplementasikan nanti).');
+            startDrag() {
+                alert('Urutan yang tampil mengikuti urutan daftar saat disimpan.');
             },
-
-            saveAll() {
-                alert('Data keunggulan berhasil disimpan (simulasi).');
-                console.log(this.keunggulan);
+            async saveAll() {
+                try {
+                    const response = await window.arjunaRequest(@json(route('admin.keunggulan.update')), {
+                        method: 'POST',
+                        body: JSON.stringify({ items: this.keunggulan })
+                    });
+                    this.keunggulan = response.data;
+                    alert(response.message);
+                } catch (error) {
+                    alert(error.message);
+                }
             }
         };
     }

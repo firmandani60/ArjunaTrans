@@ -138,102 +138,30 @@
 <script>
     function destinasiManager() {
         return {
-            destinasi: [
-                {
-                    id: 1,
-                    nama: 'Wisata Pantai Malang',
-                    deskripsi: 'Pantai Balekambang, Sendang Biru, hingga Teluk Asmara.',
-                    rute: 'Malang Selatan Route',
-                    gambarPreview: 'https://picsum.photos/seed/pantai/400/300'
-                },
-                {
-                    id: 2,
-                    nama: 'Ziarah Wali 5',
-                    deskripsi: 'Rute religi penuh makna dengan fasilitas pendukung ibadah.',
-                    rute: 'East Java Pilgrimage Route',
-                    gambarPreview: 'https://picsum.photos/seed/ziarah/400/300'
-                },
-                {
-                    id: 3,
-                    nama: 'Santerra De Laponte',
-                    deskripsi: 'Wisata tematik dengan spot foto instagramable di Malang.',
-                    rute: 'Malang City Tour',
-                    gambarPreview: 'https://picsum.photos/seed/santerra/400/300'
-                },
-                {
-                    id: 4,
-                    nama: 'Pantai Gemah',
-                    deskripsi: 'Pantai dengan pasir putih dan ombak yang tenang.',
-                    rute: 'Malang Selatan Route',
-                    gambarPreview: 'https://picsum.photos/seed/gemah/400/300'
-                }
-            ],
-            nextId: 5,
+            destinasi: @json($destinasi),
+            nextId: 100000,
             showNewForm: false,
-            newItem: {
-                nama: '',
-                deskripsi: '',
-                rute: '',
-                gambarPreview: null
-            },
+            newItem: { nama: '', deskripsi: '', rute: '', gambarPreview: null, gambarPath: null },
 
-            handleGambarBaru(event) {
-                const file = event.target.files[0];
-                if (!file) return;
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    this.newItem.gambarPreview = e.target.result;
-                };
-                reader.readAsDataURL(file);
+            async handleGambarBaru(event) {
+                const file = event.target.files[0]; if (!file) return;
+                try { const uploaded = await window.arjunaUploadImage(file); this.newItem.gambarPreview = uploaded.url; this.newItem.gambarPath = uploaded.path; }
+                catch (error) { alert(error.message); }
             },
-
-            handleGambarItem(event, index) {
-                const file = event.target.files[0];
-                if (!file) return;
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    this.destinasi[index].gambarPreview = e.target.result;
-                };
-                reader.readAsDataURL(file);
+            async handleGambarItem(event, index) {
+                const file = event.target.files[0]; if (!file) return;
+                try { const uploaded = await window.arjunaUploadImage(file); this.destinasi[index].gambarPreview = uploaded.url; this.destinasi[index].gambarPath = uploaded.path; }
+                catch (error) { alert(error.message); }
             },
-
-            simpanTambah() {
-                if (!this.newItem.nama.trim()) {
-                    alert('Nama destinasi harus diisi.');
-                    return;
-                }
-                this.destinasi.push({
-                    id: this.nextId++,
-                    nama: this.newItem.nama,
-                    deskripsi: this.newItem.deskripsi || '',
-                    rute: this.newItem.rute || '',
-                    gambarPreview: this.newItem.gambarPreview || null
-                });
-                this.batalTambah();
-            },
-
-            batalTambah() {
-                this.showNewForm = false;
-                this.newItem = { nama: '', deskripsi: '', rute: '', gambarPreview: null };
-            },
-
-            hapusDestinasi(index) {
-                if (this.destinasi.length <= 1) {
-                    alert('Minimal harus ada satu destinasi.');
-                    return;
-                }
-                if (confirm('Hapus destinasi ini?')) {
-                    this.destinasi.splice(index, 1);
-                }
-            },
-
-            startDrag(event, index) {
-                alert('Fitur drag & drop untuk mengurutkan (akan diimplementasikan nanti).');
-            },
-
-            saveAll() {
-                alert('Data destinasi berhasil disimpan (simulasi).');
-                console.log(this.destinasi);
+            simpanTambah() { if (!this.newItem.nama.trim()) return alert('Nama destinasi harus diisi.'); this.destinasi.push({ id: 'new-' + this.nextId++, ...this.newItem }); this.batalTambah(); },
+            batalTambah() { this.showNewForm = false; this.newItem = { nama: '', deskripsi: '', rute: '', gambarPreview: null, gambarPath: null }; },
+            hapusDestinasi(index) { if (this.destinasi.length <= 1) return alert('Minimal harus ada satu destinasi.'); if (confirm('Hapus destinasi ini?')) this.destinasi.splice(index, 1); },
+            startDrag() { alert('Urutan yang tampil mengikuti urutan daftar saat disimpan.'); },
+            async saveAll() {
+                try {
+                    const response = await window.arjunaRequest(@json(route('admin.destinasi.update')), { method: 'POST', body: JSON.stringify({ items: this.destinasi }) });
+                    this.destinasi = response.data; alert(response.message);
+                } catch (error) { alert(error.message); }
             }
         };
     }

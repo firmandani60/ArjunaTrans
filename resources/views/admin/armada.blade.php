@@ -173,121 +173,33 @@
 <script>
     function armadaManager() {
         return {
-            armada: [
-                {
-                    id: 1,
-                    nama: 'Bus Medium Pariwisata',
-                    kategori: 'Medium Bus',
-                    deskripsi: 'Ideal untuk rombongan instansi atau gathering keluarga besar.',
-                    kapasitas: '34 Seat',
-                    fasilitas: 'Full AC',
-                    gambarPreview: 'https://picsum.photos/seed/bus/400/300'
-                },
-                {
-                    id: 2,
-                    nama: 'Isuzu Elf Long',
-                    kategori: 'Elf',
-                    deskripsi: 'Lincah dan nyaman untuk perjalanan antar kota yang efisien.',
-                    kapasitas: '19 Seat',
-                    fasilitas: 'Reclining',
-                    gambarPreview: 'https://picsum.photos/seed/elf/400/300'
-                },
-                {
-                    id: 3,
-                    nama: 'Kabin Executive',
-                    kategori: 'Premium',
-                    deskripsi: 'Fasilitas karaoke dan interior premium untuk mood perjalanan ceria.',
-                    kapasitas: '12 Seat',
-                    fasilitas: 'Smart TV',
-                    gambarPreview: 'https://picsum.photos/seed/premium/400/300'
-                },
-                {
-                    id: 4,
-                    nama: 'Unit Premium Red',
-                    kategori: 'VIP',
-                    deskripsi: 'Edisi spesial dengan kenyamanan extra dan suspensi lembut.',
-                    kapasitas: '10 Seat',
-                    fasilitas: 'VIP Unit',
-                    gambarPreview: 'https://picsum.photos/seed/vip/400/300'
-                }
-            ],
-            nextId: 5,
+            armada: @json($armada),
+            nextId: 100000,
             showNewForm: false,
-            newItem: {
-                nama: '',
-                kategori: 'Medium Bus',
-                deskripsi: '',
-                kapasitas: '',
-                fasilitas: '',
-                gambarPreview: null
-            },
+            newItem: { nama: '', kategori: 'Medium Bus', deskripsi: '', kapasitas: '', fasilitas: '', gambarPreview: null, gambarPath: null },
 
-            handleGambarBaru(event) {
-                const file = event.target.files[0];
-                if (!file) return;
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    this.newItem.gambarPreview = e.target.result;
-                };
-                reader.readAsDataURL(file);
+            async handleGambarBaru(event) {
+                const file = event.target.files[0]; if (!file) return;
+                try { const uploaded = await window.arjunaUploadImage(file); this.newItem.gambarPreview = uploaded.url; this.newItem.gambarPath = uploaded.path; }
+                catch (error) { alert(error.message); }
             },
-
-            handleGambarItem(event, index) {
-                const file = event.target.files[0];
-                if (!file) return;
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    this.armada[index].gambarPreview = e.target.result;
-                };
-                reader.readAsDataURL(file);
+            async handleGambarItem(event, index) {
+                const file = event.target.files[0]; if (!file) return;
+                try { const uploaded = await window.arjunaUploadImage(file); this.armada[index].gambarPreview = uploaded.url; this.armada[index].gambarPath = uploaded.path; }
+                catch (error) { alert(error.message); }
             },
-
             simpanTambah() {
-                if (!this.newItem.nama.trim()) {
-                    alert('Nama armada harus diisi.');
-                    return;
-                }
-                this.armada.push({
-                    id: this.nextId++,
-                    nama: this.newItem.nama,
-                    kategori: this.newItem.kategori || 'Medium Bus',
-                    deskripsi: this.newItem.deskripsi || '',
-                    kapasitas: this.newItem.kapasitas || '',
-                    fasilitas: this.newItem.fasilitas || '',
-                    gambarPreview: this.newItem.gambarPreview || null
-                });
-                this.batalTambah();
+                if (!this.newItem.nama.trim()) return alert('Nama armada harus diisi.');
+                this.armada.push({ id: 'new-' + this.nextId++, ...this.newItem }); this.batalTambah();
             },
-
-            batalTambah() {
-                this.showNewForm = false;
-                this.newItem = {
-                    nama: '',
-                    kategori: 'Medium Bus',
-                    deskripsi: '',
-                    kapasitas: '',
-                    fasilitas: '',
-                    gambarPreview: null
-                };
-            },
-
-            hapusArmada(index) {
-                if (this.armada.length <= 1) {
-                    alert('Minimal harus ada satu armada.');
-                    return;
-                }
-                if (confirm('Hapus armada ini?')) {
-                    this.armada.splice(index, 1);
-                }
-            },
-
-            startDrag(event, index) {
-                alert('Fitur drag & drop untuk mengurutkan (akan diimplementasikan nanti).');
-            },
-
-            saveAll() {
-                alert('Data armada berhasil disimpan (simulasi).');
-                console.log(this.armada);
+            batalTambah() { this.showNewForm = false; this.newItem = { nama: '', kategori: 'Medium Bus', deskripsi: '', kapasitas: '', fasilitas: '', gambarPreview: null, gambarPath: null }; },
+            hapusArmada(index) { if (this.armada.length <= 1) return alert('Minimal harus ada satu armada.'); if (confirm('Hapus armada ini?')) this.armada.splice(index, 1); },
+            startDrag() { alert('Urutan yang tampil mengikuti urutan daftar saat disimpan.'); },
+            async saveAll() {
+                try {
+                    const response = await window.arjunaRequest(@json(route('admin.armada.update')), { method: 'POST', body: JSON.stringify({ items: this.armada }) });
+                    this.armada = response.data; alert(response.message);
+                } catch (error) { alert(error.message); }
             }
         };
     }
