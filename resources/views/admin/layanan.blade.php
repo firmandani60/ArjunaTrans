@@ -56,7 +56,7 @@
                         </div>
                     </template>
 
-                    <template x-for="(item, index) in layanan" :key="index">
+                    <template x-for="(item, index) in layanan" :key="item.id || index">
                         <div class="rounded-xl border border-slate-200 bg-slate-50/70 p-4">
                             <div class="flex items-start gap-3">
                                 <div class="cursor-grab text-slate-400 hover:text-slate-600" @mousedown="startDrag($event, index)">
@@ -118,7 +118,10 @@
                         <div class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md">
                             <img :src="item.gambarPreview || 'https://picsum.photos/seed/' + item.id + '/400/300'" alt="Gambar layanan" class="h-28 w-full object-cover">
                             <div class="p-3 text-center">
-                                <span class="text-2xl" x-text="item.ikon ? '▼' : '⭐'"></span>
+                                <span
+                                    class="material-symbols-outlined text-2xl"
+    x-text="item.ikon || 'star'">
+</span>
                                 <p class="mt-1 text-xs font-bold text-slate-800" x-text="item.judul || 'Judul'">Judul</p>
                                 <p class="mt-1 text-[10px] leading-4 text-slate-500" x-text="item.deskripsi || 'Deskripsi layanan'">Deskripsi</p>
                             </div>

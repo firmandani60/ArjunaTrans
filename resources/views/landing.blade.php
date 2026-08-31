@@ -97,20 +97,30 @@
             </div>
             <div class="mt-12 grid gap-6 md:grid-cols-2">
                 @foreach($services as $service)
-                    <article class="overflow-hidden rounded-[28px] bg-white shadow-sm">
-                        <img src="{{ $imageUrl($service->image_path, 'https://picsum.photos/seed/service-'.$service->id.'/900/560') }}" alt="{{ $service->title }}" class="h-64 w-full object-cover">
-                        <div class="p-7">
-                            <div class="flex items-start justify-between gap-4">
-                                <div>
-                                    <p class="text-xs font-black uppercase tracking-wider text-orange-600">Layanan</p>
-                                    <h3 class="mt-2 text-2xl font-black">{{ $service->title }}</h3>
-                                </div>
-                                <span class="text-4xl font-black text-orange-100">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
-                            </div>
-                            <p class="mt-4 text-sm leading-7 text-stone-600">{{ $service->description }}</p>
-                        </div>
-                    </article>
-                @endforeach
+    <article class="overflow-hidden rounded-[28px] bg-white shadow-sm">
+        <img src="{{ $imageUrl($service->gambar, 'https://picsum.photos/seed/service-'.$service->id_layanan.'/900/560') }}" alt="{{ $service->jenis_layanan }}" class="h-64 w-full object-cover">
+
+        <div class="p-7">
+            <div class="flex items-start justify-between gap-4">
+                <div>
+                    <p class="text-xs font-black uppercase tracking-wider text-orange-600">Layanan</p>
+
+                    <h3 class="mt-2 text-2xl font-black">
+                        {{ $service->jenis_layanan }}
+                    </h3>
+                </div>
+
+                <span class="text-4xl font-black text-orange-100">
+                    {{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}
+                </span>
+            </div>
+
+            <p class="mt-4 text-sm leading-7 text-stone-600">
+                {{ $service->deskripsi }}
+            </p>
+        </div>
+    </article>
+@endforeach
             </div>
         </div>
     </section>

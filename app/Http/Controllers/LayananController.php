@@ -15,7 +15,7 @@ class LayananController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $validated = $request->validate([ 
             'jenis_layanan' => 'required|string|max:250',
             'gambar'        => 'required|string|max:250',
             'deskripsi'     => 'required|string|max:250',

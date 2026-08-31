@@ -10,7 +10,8 @@ use App\Models\Fleet;
 use App\Models\HeroSection;
 use App\Models\OrderStep;
 use App\Models\RentalRoute;
-use App\Models\Service;
+// use App\Models\Service;
+use App\Models\Layanan;
 
 class LandingController extends Controller
 {
@@ -19,7 +20,7 @@ class LandingController extends Controller
         return view('landing', [
             'hero' => HeroSection::first(),
             'advantages' => Advantage::where('is_active', true)->orderBy('sort_order')->get(),
-            'services' => Service::where('is_active', true)->orderBy('sort_order')->get(),
+            'services' => Layanan::all(),
             'about' => AboutSection::with('galleryImages')->first(),
             'fleets' => Fleet::where('is_active', true)->orderBy('sort_order')->get(),
             'destinations' => Destination::where('is_active', true)->orderBy('sort_order')->get(),
