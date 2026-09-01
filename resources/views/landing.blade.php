@@ -52,9 +52,10 @@
     </header>
 
     <main>
-        <section id="beranda" class="relative isolate overflow-hidden bg-stone-950">
-            <img src="{{ $imageUrl($hero?->image_path, 'https://picsum.photos/seed/arjuna-main/1800/1000') }}" alt="{{ $hero?->image_alt ?: 'Armada Arjuna Trans' }}" class="absolute inset-0 -z-20 h-full w-full object-cover opacity-60">
-            <div class="absolute inset-0 -z-10 bg-gradient-to-r from-black/90 via-black/65 to-black/25"></div>
+        {{-- Hero --}}
+        <section id="beranda" class="relative isolate overflow-hidden bg-stone-950 bg-[url({{ $imageUrl($hero?->image_path, 'https://picsum.photos/seed/arjuna-main/1800/1000') }})] bg-fixed bg-cover bg-center bg-no-repeat bg-opacity-60">
+            {{-- <img src="{{ $imageUrl($hero?->image_path, 'https://picsum.photos/seed/arjuna-main/1800/1000') }}" alt="{{ $hero?->image_alt ?: 'Armada Arjuna Trans' }}" class="absolute inset-0 -z-20 h-full w-full object-cover opacity-60"> --}}
+            <div class="absolute inset-0 -z-10 bg-black/50"></div>
             <div class="mx-auto grid min-h-[650px] max-w-7xl items-center px-5 py-24 lg:px-8">
                 <div class="max-w-3xl text-white">
                     <span class="inline-flex items-center rounded-full border border-orange-400/30 bg-black/25 px-4 py-2 text-xs font-bold uppercase tracking-[.16em] text-orange-200">
@@ -78,6 +79,7 @@
             </div>
         </section>
 
+        {{-- Keunggulan --}}
         <section class="px-5 py-20 lg:px-8">
             <div class="mx-auto max-w-7xl">
                 <div class="text-center">
@@ -101,6 +103,7 @@
             </div>
         </section>
 
+        {{-- Fasilitas & layanan --}}
         <section class="bg-[#fff1eb] px-5 py-20 lg:px-8">
             <div class="mx-auto max-w-7xl">
                 <div class="text-center">
@@ -138,6 +141,7 @@
             </div>
         </section>
 
+        {{-- Tentang --}}
         <section id="tentang" class="px-5 py-20 lg:px-8">
             <div class="mx-auto grid max-w-7xl gap-12 lg:grid-cols-2 lg:items-center">
                 <div class="grid grid-cols-2 gap-4">
@@ -166,6 +170,7 @@
             </div>
         </section>
 
+        {{-- Katalog Armada --}}
         <section id="armada" class="bg-white px-5 py-20 lg:px-8">
             <div class="mx-auto max-w-7xl">
                 <div class="flex flex-col justify-between gap-5 md:flex-row md:items-end">
@@ -223,36 +228,45 @@
                     <button class="filter-btn rounded-full bg-orange-100 px-6 py-2 text-sm font-bold text-orange-700 transition hover:bg-orange-200" data-filter="destinasi">Destinasi</button>
                 </div>
 
-                <!-- Grid Foto -->
+                <!-- Grid Foto (Seragam) -->
                 <div class="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3" id="gallery-grid">
                     <!-- Foto Armada -->
-                    <div class="gallery-item overflow-hidden rounded-[26px] shadow-sm transition duration-300 hover:shadow-xl" data-category="armada">
-                        <img src="https://picsum.photos/seed/g-armada1/600/600" alt="Armada 1" class="h-64 w-full object-cover transition duration-500 hover:scale-110">
+                    <div class="gallery-item overflow-hidden rounded-[26px] shadow-sm transition duration-300 hover:shadow-xl cursor-pointer" data-category="armada" onclick="openLightbox(this)">
+                        <img src="https://loremflickr.com/800/600/bus?random=11" alt="Armada 1" class="h-64 w-full object-cover transition duration-500 hover:scale-110">
                     </div>
                     <!-- Foto Destinasi -->
-                    <div class="gallery-item overflow-hidden rounded-[26px] shadow-sm transition duration-300 hover:shadow-xl" data-category="destinasi">
-                        <img src="https://picsum.photos/seed/g-dest1/600/600" alt="Destinasi 1" class="h-64 w-full object-cover transition duration-500 hover:scale-110">
+                    <div class="gallery-item overflow-hidden rounded-[26px] shadow-sm transition duration-300 hover:shadow-xl cursor-pointer" data-category="destinasi" onclick="openLightbox(this)">
+                        <img src="https://loremflickr.com/600/800/nature?random=12" alt="Destinasi 1" class="h-64 w-full object-cover transition duration-500 hover:scale-110">
                     </div>
                     <!-- Foto Armada -->
-                    <div class="gallery-item overflow-hidden rounded-[26px] shadow-sm transition duration-300 hover:shadow-xl" data-category="armada">
-                        <img src="https://picsum.photos/seed/g-armada2/600/600" alt="Armada 2" class="h-64 w-full object-cover transition duration-500 hover:scale-110">
+                    <div class="gallery-item overflow-hidden rounded-[26px] shadow-sm transition duration-300 hover:shadow-xl cursor-pointer" data-category="armada" onclick="openLightbox(this)">
+                        <img src="https://loremflickr.com/800/800/bus?random=13" alt="Armada 2" class="h-64 w-full object-cover transition duration-500 hover:scale-110">
                     </div>
                     <!-- Foto Destinasi -->
-                    <div class="gallery-item overflow-hidden rounded-[26px] shadow-sm transition duration-300 hover:shadow-xl" data-category="destinasi">
-                        <img src="https://picsum.photos/seed/g-dest2/600/600" alt="Destinasi 2" class="h-64 w-full object-cover transition duration-500 hover:scale-110">
+                    <div class="gallery-item overflow-hidden rounded-[26px] shadow-sm transition duration-300 hover:shadow-xl cursor-pointer" data-category="destinasi" onclick="openLightbox(this)">
+                        <img src="https://loremflickr.com/800/500/landscape?random=14" alt="Destinasi 2" class="h-64 w-full object-cover transition duration-500 hover:scale-110">
                     </div>
                     <!-- Foto Destinasi -->
-                    <div class="gallery-item overflow-hidden rounded-[26px] shadow-sm transition duration-300 hover:shadow-xl" data-category="destinasi">
-                        <img src="https://picsum.photos/seed/g-dest3/600/600" alt="Destinasi 3" class="h-64 w-full object-cover transition duration-500 hover:scale-110">
+                    <div class="gallery-item overflow-hidden rounded-[26px] shadow-sm transition duration-300 hover:shadow-xl cursor-pointer" data-category="destinasi" onclick="openLightbox(this)">
+                        <img src="https://loremflickr.com/600/900/nature?random=15" alt="Destinasi 3" class="h-64 w-full object-cover transition duration-500 hover:scale-110">
                     </div>
                     <!-- Foto Armada -->
-                    <div class="gallery-item overflow-hidden rounded-[26px] shadow-sm transition duration-300 hover:shadow-xl" data-category="armada">
-                        <img src="https://picsum.photos/seed/g-armada3/600/600" alt="Armada 3" class="h-64 w-full object-cover transition duration-500 hover:scale-110">
+                    <div class="gallery-item overflow-hidden rounded-[26px] shadow-sm transition duration-300 hover:shadow-xl cursor-pointer" data-category="armada" onclick="openLightbox(this)">
+                        <img src="https://loremflickr.com/800/600/transport?random=16" alt="Armada 3" class="h-64 w-full object-cover transition duration-500 hover:scale-110">
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- Lightbox Modal -->
+        <div id="lightbox" class="fixed inset-0 z-[100] hidden items-center justify-center bg-stone-900/80 p-5 backdrop-blur-sm transition-opacity duration-300 opacity-0" onclick="closeLightbox(event)">
+            <button class="absolute right-6 top-6 text-white/70 transition hover:scale-110 hover:text-orange-400" onclick="closeLightbox(event, true)">
+                <span class="material-symbols-outlined text-4xl">close</span>
+            </button>
+            <img id="lightbox-img" src="" alt="Preview" class="max-h-[90vh] max-w-full rounded-[26px] object-contain shadow-2xl transition-transform duration-300 scale-95">
+        </div>
+
+        {{-- Tujuan --}}
         <section id="tujuan" class="bg-[#3a2119] px-5 py-20 text-white lg:px-8">
             <div class="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[.9fr_1.1fr]">
                 <div>
@@ -276,7 +290,7 @@
                     </div>
                 </div>
                 <div class="grid grid-cols-2 gap-4 self-center">
-                    @foreach($destinations->take(4) as $destination)
+                    @foreach($destinations->take(7) as $destination)
                     <figure class="relative overflow-hidden rounded-[26px] {{ $loop->even ? 'translate-y-8' : '' }}">
                         <img src="{{ $imageUrl($destination->image_path, 'https://picsum.photos/seed/dest-'.$destination->id.'/650/760') }}" alt="{{ $destination->name }}" class="h-64 w-full object-cover">
                         <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-5 pt-12 text-sm font-black">
@@ -287,6 +301,7 @@
             </div>
         </section>
 
+        {{-- Daftar Rute & Harga Sewa --}}
         <section class="px-5 py-20 lg:px-8">
             <div class="mx-auto max-w-7xl">
                 <div class="text-center">
@@ -331,6 +346,7 @@
             </div>
         </section>
 
+        {{-- Alur Pemesanan --}}
         <section id="cara-pesan" class="bg-[#25130f] px-5 py-20 text-white lg:px-8">
             <div class="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[.8fr_1.2fr]">
                 <div>
@@ -408,35 +424,76 @@
         document.addEventListener('DOMContentLoaded', () => window.lucide && lucide.createIcons());
     </script>
 
+    {{-- Script Section Gallery --}}
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const galleryItems = document.querySelectorAll('.gallery-item');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const galleryItems = document.querySelectorAll('.gallery-item');
 
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Reset semua tombol ke warna pastel (orange-100)
-                filterBtns.forEach(b => {
-                    b.classList.remove('bg-orange-600', 'text-white', 'shadow-md');
-                    b.classList.add('bg-orange-100', 'text-orange-700');
-                });
-                
-                // Ubah warna tombol yang sedang diklik jadi solid
-                btn.classList.remove('bg-orange-100', 'text-orange-700');
-                btn.classList.add('bg-orange-600', 'text-white', 'shadow-md');
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Reset semua tombol ke warna pastel (orange-100)
+                    filterBtns.forEach(b => {
+                        b.classList.remove('bg-orange-600', 'text-white', 'shadow-md');
+                        b.classList.add('bg-orange-100', 'text-orange-700');
+                    });
+                    
+                    // Ubah warna tombol yang sedang diklik jadi solid
+                    btn.classList.remove('bg-orange-100', 'text-orange-700');
+                    btn.classList.add('bg-orange-600', 'text-white', 'shadow-md');
 
-                // Logika memfilter gambar
-                const filterValue = btn.getAttribute('data-filter');
-                galleryItems.forEach(item => {
-                    if (filterValue === 'semua' || item.getAttribute('data-category') === filterValue) {
-                        item.style.display = 'block';
-                    } else {
-                        item.style.display = 'none';
-                    }
+                    // Logika memfilter gambar
+                    const filterValue = btn.getAttribute('data-filter');
+                    galleryItems.forEach(item => {
+                        if (filterValue === 'semua' || item.getAttribute('data-category') === filterValue) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
                 });
             });
         });
-    });
+
+        // Fungsi untuk membuka Lightbox
+        function openLightbox(element) {
+            const img = element.querySelector('img');
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+
+            lightboxImg.src = img.src;
+            lightbox.classList.remove('hidden');
+            lightbox.classList.add('flex');
+            
+            // Sedikit delay agar transisi opacity dan scale terlihat mulus
+            setTimeout(() => {
+                lightbox.classList.remove('opacity-0');
+                lightboxImg.classList.remove('scale-95');
+                lightboxImg.classList.add('scale-100');
+            }, 10);
+            
+            // Mencegah body agar tidak bisa di-scroll saat lightbox terbuka
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        // Fungsi untuk menutup Lightbox
+        function closeLightbox(event, force = false) {
+            // Tutup jika tombol silang di-klik ATAU background gelap di-klik
+            if (force || event.target.id === 'lightbox') {
+                const lightbox = document.getElementById('lightbox');
+                const lightboxImg = document.getElementById('lightbox-img');
+
+                lightbox.classList.add('opacity-0');
+                lightboxImg.classList.remove('scale-100');
+                lightboxImg.classList.add('scale-95');
+
+                setTimeout(() => {
+                    lightbox.classList.add('hidden');
+                    lightbox.classList.remove('flex');
+                    document.body.style.overflow = 'auto'; // Kembalikan fungsi scroll
+                }, 300);
+            }
+        }
     </script>
 </body>
 
