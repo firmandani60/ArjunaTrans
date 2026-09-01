@@ -4,8 +4,11 @@
 
 <div x-data="keunggulanManager()" class="space-y-6">
     <section class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <button type="button" @click="saveAll()" class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 px-5 py-2.5 text-sm font-bold text-white shadow-[0_10px_25px_rgba(249,115,22,0.25)] transition hover:-translate-y-0.5 hover:from-orange-600 hover:to-orange-700">
-            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
+        <button type="button" @click="saveAll()"
+            class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 px-5 py-2.5 text-sm font-bold text-white shadow-[0_10px_25px_rgba(249,115,22,0.25)] transition hover:-translate-y-0.5 hover:from-orange-600 hover:to-orange-700">
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+            </svg>
             Simpan Perubahan
         </button>
     </section>
@@ -16,7 +19,9 @@
                 <div class="flex items-center justify-between">
                     <h2 class="text-base font-bold text-slate-900">Daftar Keunggulan</h2>
                     <button type="button" @click="showNewForm = true" class="inline-flex items-center gap-1.5 rounded-lg bg-orange-500 px-3 py-1.5 text-xs font-bold text-white transition hover:bg-orange-600">
-                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14"/></svg>
+                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14" />
+                        </svg>
                         Tambah Baru
                     </button>
                 </div>
@@ -38,7 +43,8 @@
                                     </div>
                                     <div>
                                         <label class="mb-1 block text-[10px] font-bold uppercase text-slate-500">Deskripsi</label>
-                                        <textarea x-model="newItem.deskripsi" rows="2" placeholder="Tulis deskripsi keunggulan di sini..." class="w-full rounded-lg border border-slate-300 px-2 py-1.5 text-xs focus:border-orange-400 focus:ring-1 focus:ring-orange-400"></textarea>
+                                        <textarea x-model="newItem.deskripsi" rows="2" placeholder="Tulis deskripsi keunggulan di sini..."
+                                            class="w-full rounded-lg border border-slate-300 px-2 py-1.5 text-xs focus:border-orange-400 focus:ring-1 focus:ring-orange-400"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -57,7 +63,9 @@
                         <div class="rounded-xl border border-slate-200 bg-slate-50/70 p-4">
                             <div class="flex items-start gap-3">
                                 <div class="cursor-grab text-slate-400 hover:text-slate-600" @mousedown="startDrag($event, index)">
-                                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 8h16M4 16h16"/></svg>
+                                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 8h16M4 16h16" />
+                                    </svg>
                                 </div>
                                 <div class="flex-1 space-y-3">
                                     <div class="grid grid-cols-6 gap-3">
@@ -72,11 +80,14 @@
                                     </div>
                                     <div>
                                         <label class="mb-1 block text-[10px] font-bold uppercase text-slate-500">Deskripsi</label>
-                                        <textarea x-model="item.deskripsi" rows="2" placeholder="Pengemudi terlatih..." class="w-full rounded-lg border border-slate-300 px-2 py-1.5 text-xs focus:border-orange-400 focus:ring-1 focus:ring-orange-400"></textarea>
+                                        <textarea x-model="item.deskripsi" rows="2" placeholder="Pengemudi terlatih..."
+                                            class="w-full rounded-lg border border-slate-300 px-2 py-1.5 text-xs focus:border-orange-400 focus:ring-1 focus:ring-orange-400"></textarea>
                                     </div>
                                 </div>
                                 <button type="button" @click="hapusKeunggulan(index)" class="mt-1 rounded-lg p-1 text-rose-500 transition hover:bg-rose-50">
-                                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
                                 </button>
                             </div>
                         </div>
@@ -91,7 +102,7 @@
             </div>
 
             <div class="rounded-2xl border border-slate-200 bg-amber-50 p-4 text-xs text-amber-800">
-                <strong>💡 Ikon Material Symbols:</strong> Gunakan nama ikon dari 
+                <strong>💡 Ikon Material Symbols:</strong> Gunakan nama ikon dari
                 <a href="https://fonts.google.com/icons" target="_blank" class="font-bold text-amber-900 underline">Google Material Symbols</a>.
                 Contoh: <code class="rounded bg-white px-1.5 py-0.5 font-mono">manage_accounts</code>, <code class="rounded bg-white px-1.5 py-0.5 font-mono">ads_click</code>, <code class="rounded bg-white px-1.5 py-0.5 font-mono">verified</code>.
             </div>
@@ -103,7 +114,7 @@
                 <div class="mt-4 grid grid-cols-2 gap-4">
                     <template x-for="item in keunggulan" :key="item.id">
                         <div class="rounded-xl border border-slate-100 bg-slate-50 p-4 text-center transition hover:shadow-md">
-                            <span class="text-3xl" x-text="item.ikon ? '▼' : '⭐'"></span>
+                            <span class="material-symbols-outlined text-3xl text-orange-500" x-text="item.ikon || 'star'"></span>
                             <p class="mt-2 text-sm font-bold text-slate-800" x-text="item.judul || 'Judul'">Judul</p>
                             <p class="mt-1 text-xs text-slate-500" x-text="item.deskripsi || 'Deskripsi'">Deskripsi</p>
                         </div>

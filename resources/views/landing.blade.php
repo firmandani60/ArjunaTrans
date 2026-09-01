@@ -9,6 +9,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <style>
         [x-cloak] {
             display: none !important;
@@ -84,11 +85,11 @@
                     <h2 class="mt-3 text-3xl font-black tracking-tight sm:text-4xl">Keunggulan Arjuna Trans</h2>
                     <div class="mx-auto mt-4 h-1 w-14 rounded-full bg-orange-600"></div>
                 </div>
-                <div class="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+                <div class="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
                     @forelse($advantages as $advantage)
                     <article class="rounded-[28px] border border-orange-100 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
                         <div class="grid h-12 w-12 place-items-center rounded-2xl bg-orange-50 text-orange-600">
-                            <i data-lucide="{{ $advantage->icon ?: 'star' }}" class="h-6 w-6"></i>
+                            <span class="material-symbols-outlined h-6 w-6">{{ $advantage->icon ?: 'star' }}</span>
                         </div>
                         <h3 class="mt-6 text-lg font-black">{{ $advantage->title }}</h3>
                         <p class="mt-3 text-sm leading-7 text-stone-600">{{ $advantage->description }}</p>
@@ -291,7 +292,7 @@
                 <div class="text-center">
                     <p class="section-kicker text-xs font-black uppercase text-orange-600">Destinasi Populer</p>
                     <h2 class="mt-3 text-3xl font-black sm:text-4xl">Daftar Rute & Harga Sewa</h2>
-                    <p class="mx-auto mt-4 max-w-2xl text-sm leading-7 text-stone-600">Harga dapat diperbarui dari panel
+                    <p class="mx-auto mt-4 max-w-3xl text-sm leading-7 text-stone-600">Harga dapat diperbarui dari panel
                         admin. Konfirmasi kembali untuk tanggal, durasi, dan titik penjemputan Anda.</p>
                 </div>
                 <div class="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
@@ -299,25 +300,25 @@
                     <article class="overflow-hidden rounded-[26px] border border-orange-100 bg-white shadow-sm">
                         <div class="relative">
                             <img src="{{ $imageUrl($route->image_path, 'https://picsum.photos/seed/route-'.$route->id.'/700/520') }}" alt="{{ $route->destination_name }}" class="h-44 w-full object-cover">
-                            <span class="absolute left-4 top-4 rounded-lg bg-orange-600 px-3 py-1 text-[10px] font-black uppercase text-white">{{ $route->fleet?->name ?? $route->fleet_name ?? 'Armada' }}</span>
+                            <span class="absolute left-4 top-4 rounded-lg bg-orange-600 px-3 py-1 text-[10px] font-semibold uppercase text-white">{{ $route->fleet?->name ?? $route->fleet_name ?? 'Armada' }}</span>
                         </div>
                         <div class="p-5">
                             <h3 class="text-xl font-black">{{ $route->destination?->name ?? $route->destination_name }}
                             </h3>
                             <p class="mt-1 text-xs leading-5 text-stone-500">{{ $route->route_description }}</p>
                             <div class="mt-5 rounded-xl bg-orange-50 p-4">
-                                <div class="flex items-center justify-between gap-3">
-                                    <div>
+                                <div class="flex flex-col items-center justify-between gap-3">
+                                    <div class="flex flex-col items-center rounded-lg bg-white px-5 py-2 text-center">
+                                        <p class="text-[10px] font-bold uppercase text-stone-400">Armada</p>
+                                        <p class="mt-0.5 text-xs font-semibold text-stone-700">
+                                            {{ $route->fleet?->name ?? $route->fleet_name ?? '-' }}</p>
+                                    </div>
+                                    <div class="flex flex-col items-center px-3 py-2">
                                         <p class="text-[10px] font-bold uppercase tracking-wider text-stone-500">Harga
                                             Sewa</p>
                                         <p class="mt-1 text-lg font-black text-orange-700">Rp
                                             {{ number_format($route->price ?? $route->elf_long_price ?? $route->medium_bus_price ?? 0, 0, ',', '.') }}
                                         </p>
-                                    </div>
-                                    <div class="rounded-lg bg-white px-3 py-2 text-right">
-                                        <p class="text-[10px] font-bold uppercase text-stone-400">Armada</p>
-                                        <p class="mt-0.5 text-xs font-black text-stone-700">
-                                            {{ $route->fleet?->name ?? $route->fleet_name ?? '-' }}</p>
                                     </div>
                                 </div>
                             </div>
