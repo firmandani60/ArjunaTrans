@@ -776,84 +776,104 @@ class AdminContentController extends Controller
     */
 
     public function contact()
-    {
-        $contact = ContactSetting::firstOrCreate();
+{
+    $contact = ContactSetting::firstOrCreate();
 
-        return view('admin.kontak', [
-            'kontak' => [
-                'deskripsi' => $contact->description,
-                'alamat' => $contact->address,
-                'whatsapp' => $contact->whatsapp,
-                'email' => $contact->email,
-                'instagram' => $contact->instagram,
-                'facebook' => $contact->facebook,
-                'youtube' => $contact->youtube,
-            ],
-        ]);
-    }
+    return view('admin.kontak', [
+        'kontak' => [
+            'deskripsi' => $contact->description,
+            'alamat' => $contact->address,
+
+            'whatsapp' => $contact->whatsapps()
+    ->orderBy('sort_order')
+    ->get()
+    ->map(fn ($item) => [
+        'id' => $item->id,
+        'nomor' => $item->phone_number,
+    ])
+    ->values(),
+
+            'email' => $contact->email,
+            'instagram' => $contact->instagram,
+            'facebook' => $contact->facebook,
+            'youtube' => $contact->youtube,
+        ],
+    ]);
+}
 
     public function updateContact(Request $request): JsonResponse
-    {
-        $data = $request->validate([
-            'deskripsi' => ['nullable', 'string'],
-            'alamat' => ['nullable', 'string'],
-            'whatsapp' => ['nullable', 'string', 'max:100'],
-            'email' => ['nullable', 'email', 'max:255'],
-            'instagram' => ['nullable', 'string', 'max:500'],
-            'facebook' => ['nullable', 'string', 'max:500'],
-            'youtube' => ['nullable', 'string', 'max:500'],
-        ]);
+{
+    $data = $request->validate([
+        'deskripsi' => ['nullable', 'string'],
+        'alamat' => ['nullable', 'string'],
+        'maps_link' => ['nullable', 'string'],
+        
+        'whatsapp' => ['nullable', 'array'],
+        'whatsapp.*.nomor' => ['required', 'string', 'max:50'],
 
+        'email' => ['nullable', 'email', 'max:255'],
+        'instagram' => ['nullable', 'string', 'max:500'],
+        'facebook' => ['nullable', 'string', 'max:500'],
+        'youtube' => ['nullable', 'string', 'max:500'],
+        'tiktok' => ['nullable', 'string', 'max:500'],
+    ]);
 
-        $contact = ContactSetting::firstOrNew();
+    $contact = ContactSetting::firstOrNew();
 
-        $contact->fill([
-            'description' =>
-                $data['deskripsi']
-                ?? null,
+    $contact->fill([
+        'description' => $data['deskripsi'] ?? null,
+        'address' => $data['alamat'] ?? null,
+        'maps_link' => $data['maps_link'] ?? null,
+        'email' => $data['email'] ?? null,
+        'instagram' => $data['instagram'] ?? null,
+        'facebook' => $data['facebook'] ?? null,
+        'youtube' => $data['youtube'] ?? null,
+        'tiktok' => $data['tiktok'] ?? null,
+    ]);
 
-            'address' =>
-                $data['alamat']
-                ?? null,
+    $contact->save();
 
-            'whatsapp' =>
-                $data['whatsapp']
-                ?? null,
+    // Hapus nomor WhatsApp lama
+    $contact->whatsapps()->delete();
 
-            'email' =>
-                $data['email']
-                ?? null,
+    // Simpan nomor WhatsApp baru
+    foreach ($data['whatsapp'] ?? [] as $index => $whatsapp) {
 
-            'instagram' =>
-                $data['instagram']
-                ?? null,
+        if (empty($whatsapp['nomor'])) {
+            continue;
+        }
 
-            'facebook' =>
-                $data['facebook']
-                ?? null,
-
-            'youtube' =>
-                $data['youtube']
-                ?? null,
-        ])->save();
-
-
-        return response()->json([
-            'message' =>
-                'Data kontak berhasil disimpan.',
-
-            'data' => [
-                'deskripsi' => $contact->description,
-                'alamat' => $contact->address,
-                'whatsapp' => $contact->whatsapp,
-                'email' => $contact->email,
-                'instagram' => $contact->instagram,
-                'facebook' => $contact->facebook,
-                'youtube' => $contact->youtube,
-            ],
+        $contact->whatsapps()->create([
+            'phone_number' => $whatsapp['nomor'],
+            'sort_order' => $index,
         ]);
     }
 
+    return response()->json([
+        'message' => 'Data kontak berhasil disimpan.',
+
+        'data' => [
+            'deskripsi' => $contact->description,
+            'alamat' => $contact->address,
+            'maps_link' => $contact->maps_link,
+
+            'whatsapp' => $contact->whatsapps()
+                ->orderBy('sort_order')
+                ->get()
+                ->map(fn ($item) => [
+                    'id' => $item->id,
+                    'nomor' => $item->phone_number,
+                ])
+                ->values(),
+
+            'email' => $contact->email,
+            'instagram' => $contact->instagram,
+            'facebook' => $contact->facebook,
+            'youtube' => $contact->youtube,
+            'tiktok' => $contact->tiktok,
+        ],
+    ]);
+}
 
     /*
     |--------------------------------------------------------------------------

@@ -372,48 +372,263 @@
         </section>
     </main>
 
-    <footer id="kontak" class="bg-[#fffaf7] px-5 py-16 lg:px-8">
-        <div class="mx-auto grid max-w-7xl gap-10 border-b border-orange-100 pb-12 md:grid-cols-2 lg:grid-cols-4">
-            <div>
-                <div class="text-xl font-black"><span class="text-orange-600">Arjuna</span> Trans</div>
-                <p class="mt-4 text-sm leading-7 text-stone-600">{{ $contact?->description }}</p>
+<footer id="kontak" class="bg-[#fffaf7] px-5 py-16 lg:px-8">
+    <div class="mx-auto grid max-w-7xl gap-10 border-b border-orange-100 pb-12 md:grid-cols-2 lg:grid-cols-4">
+
+        {{-- =========================
+            ARJUNA TRANS + MAPS
+        ========================== --}}
+        <div>
+            <div class="text-xl font-black">
+                <span class="text-orange-600">Arjuna</span> Trans
             </div>
-            <div>
-                <h3 class="text-sm font-black uppercase tracking-wider text-orange-600">Navigasi</h3>
-                <div class="mt-4 space-y-3 text-sm text-stone-600">
-                    <a class="block hover:text-orange-600" href="#beranda">Beranda</a>
-                    <a class="block hover:text-orange-600" href="#armada">Daftar Armada</a>
-                    <a class="block hover:text-orange-600" href="#tujuan">Pilihan Tujuan</a>
-                    <a class="block hover:text-orange-600" href="#cara-pesan">Cara Pesan</a>
-                </div>
-            </div>
-            <div>
-                <h3 class="text-sm font-black uppercase tracking-wider text-orange-600">Informasi</h3>
-                <div class="mt-4 space-y-3 text-sm text-stone-600">
-                    <p>Syarat & Ketentuan</p>
-                    <p>Kebijakan Privasi</p>
-                    <p>Testimoni</p>
-                    <p>Karir Sopir</p>
-                </div>
-            </div>
-            <div>
-                <h3 class="text-sm font-black uppercase tracking-wider text-orange-600">Kantor Kami</h3>
-                <div class="mt-4 space-y-4 text-sm leading-6 text-stone-600">
-                    <p class="flex gap-3"><i data-lucide="map-pin" class="mt-1 h-4 w-4 shrink-0 text-orange-600"></i>{{ $contact?->address }}</p>
-                    <a href="{{ $waLink }}" target="_blank" class="flex gap-3 hover:text-orange-600"><i data-lucide="phone" class="mt-1 h-4 w-4 shrink-0 text-orange-600"></i>{{ $contact?->whatsapp }}</a>
-                    <a href="mailto:{{ $contact?->email }}" class="flex gap-3 hover:text-orange-600"><i data-lucide="mail" class="mt-1 h-4 w-4 shrink-0 text-orange-600"></i>{{ $contact?->email }}</a>
-                </div>
+
+            <p class="mt-4 text-sm leading-7 text-stone-600">
+                {{ $contact?->description }}
+            </p>
+
+            {{-- Google Maps --}}
+@if($contact?->maps_link)
+    <div class="mt-5 overflow-hidden rounded-xl border border-orange-100 shadow-sm">
+        <iframe
+            src="{{ $contact->maps_link }}"
+            width="100%"
+            height="180"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin">
+        </iframe>
+    </div>
+@endif
+        </div>
+
+
+        {{-- =========================
+            NAVIGASI
+        ========================== --}}
+        <div>
+            <h3 class="text-sm font-black uppercase tracking-wider text-orange-600">
+                Navigasi
+            </h3>
+
+            <div class="mt-4 space-y-3 text-sm text-stone-600">
+                <a class="block hover:text-orange-600" href="#beranda">
+                    Beranda
+                </a>
+
+                <a class="block hover:text-orange-600" href="#armada">
+                    Daftar Armada
+                </a>
+
+                <a class="block hover:text-orange-600" href="#tujuan">
+                    Pilihan Tujuan
+                </a>
+
+                <a class="block hover:text-orange-600" href="#cara-pesan">
+                    Cara Pesan
+                </a>
             </div>
         </div>
-        <div class="mx-auto flex max-w-7xl flex-col gap-4 pt-7 text-xs text-stone-500 sm:flex-row sm:items-center sm:justify-between">
-            <p>© {{ now()->year }} Arjuna Trans. Crafted for Premium Travel Experience.</p>
-            <div class="flex gap-4">
-                @if($contact?->instagram)<a href="{{ $contact->instagram }}" target="_blank" class="hover:text-orange-600">Instagram</a>@endif
-                @if($contact?->facebook)<a href="{{ $contact->facebook }}" target="_blank" class="hover:text-orange-600">Facebook</a>@endif
-                @if($contact?->youtube)<a href="{{ $contact->youtube }}" target="_blank" class="hover:text-orange-600">YouTube</a>@endif
+
+
+        {{-- =========================
+            INFORMASI
+        ========================== --}}
+        <div>
+            <h3 class="text-sm font-black uppercase tracking-wider text-orange-600">
+                Informasi
+            </h3>
+
+            <div class="mt-4 space-y-3 text-sm text-stone-600">
+                <p>Syarat & Ketentuan</p>
+                <p>Kebijakan Privasi</p>
+                <p>Testimoni</p>
+                <p>Karir Sopir</p>
             </div>
         </div>
-    </footer>
+
+
+        {{-- =========================
+            KANTOR KAMI
+        ========================== --}}
+        <div>
+            <h3 class="text-sm font-black uppercase tracking-wider text-orange-600">
+                Kantor Kami
+            </h3>
+
+            <div class="mt-4 space-y-4 text-sm leading-6 text-stone-600">
+
+                {{-- Alamat --}}
+                @if($contact?->address)
+                    <p class="flex gap-3">
+                        <i
+                            data-lucide="map-pin"
+                            class="mt-1 h-5 w-5 shrink-0 text-orange-600">
+                        </i>
+
+                        <span>
+                            {{ $contact->address }}
+                        </span>
+                    </p>
+                @endif
+
+
+                {{-- WhatsApp --}}
+                @if($contact?->whatsapps && $contact->whatsapps->count())
+                    @foreach($contact->whatsapps as $wa)
+                        <a
+                            href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $wa->phone_number) }}"
+                            target="_blank"
+                            class="flex gap-3 hover:text-orange-600">
+
+                            <i
+                                data-lucide="phone"
+                                class="mt-1 h-5 w-5 shrink-0 text-orange-600">
+                            </i>
+
+                            <span>
+                                {{ $wa->phone_number }}
+                            </span>
+                        </a>
+                    @endforeach
+                @endif
+
+
+                {{-- Email --}}
+                @if($contact?->email)
+                    <a
+                        href="mailto:{{ $contact->email }}"
+                        class="flex gap-3 hover:text-orange-600">
+
+                        <i
+                            data-lucide="mail"
+                            class="mt-1 h-5 w-5 shrink-0 text-orange-600">
+                        </i>
+
+                        <span>
+                            {{ $contact->email }}
+                        </span>
+                    </a>
+                @endif
+
+
+                {{-- =========================
+    SOCIAL MEDIA
+========================== --}}
+<div class="flex items-center gap-4 pt-2">
+
+    {{-- Instagram --}}
+    @if($contact?->instagram)
+        <a
+            href="{{ $contact->instagram }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Instagram"
+            class="text-stone-500 transition hover:text-orange-600">
+
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="h-5 w-5">
+
+                <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 2A3.75 3.75 0 0 0 4 7.75v8.5A3.75 3.75 0 0 0 7.75 20h8.5A3.75 3.75 0 0 0 20 16.25v-8.5A3.75 3.75 0 0 0 16.25 4h-8.5Zm4.25 3.25a4.75 4.75 0 1 1 0 9.5 4.75 4.75 0 0 1 0-9.5Zm0 2a2.75 2.75 0 1 0 0 5.5 2.75 2.75 0 0 0 0-5.5Zm5-2.25a1.125 1.125 0 1 1 0 2.25 1.125 1.125 0 0 1 0-2.25Z"/>
+            </svg>
+        </a>
+    @endif
+
+
+    {{-- Facebook --}}
+    @if($contact?->facebook)
+        <a
+            href="{{ $contact->facebook }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Facebook"
+            class="text-stone-500 transition hover:text-orange-600">
+
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="h-5 w-5">
+
+                <path d="M13.5 21v-8h2.75l.5-3H13.5V8.25c0-.9.3-1.5 1.6-1.5h1.8V4.05c-.3-.05-1.3-.15-2.5-.15-2.5 0-4.15 1.5-4.15 4.3V10H7.5v3h2.75v8h3.25Z"/>
+            </svg>
+        </a>
+    @endif
+
+
+    {{-- YouTube --}}
+    @if($contact?->youtube)
+        <a
+            href="{{ $contact->youtube }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="YouTube"
+            class="text-stone-500 transition hover:text-orange-600">
+
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="h-5 w-5">
+
+                <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.5 15.5v-7l6 3.5-6 3.5Z"/>
+            </svg>
+        </a>
+    @endif
+
+
+    {{-- TikTok --}}
+    @if($contact?->tiktok)
+        <a
+            href="{{ $contact->tiktok }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="TikTok"
+            class="text-stone-500 transition hover:text-orange-600">
+
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="h-5 w-5">
+
+                <path d="M19.589 6.686a4.793 4.793 0 0 1-3.77-3.77A4.796 4.796 0 0 1 15.734 2h-3.268v13.574a2.816 2.816 0 1 1-1.934-2.674V9.58a6.08 6.08 0 1 0 5.286 6V9.394a8.018 8.018 0 0 0 4.686 1.502V7.63a4.788 4.788 0 0 1-.915-.944z"/>
+            </svg>
+        </a>
+    @endif
+
+</div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+    {{-- =========================
+         COPYRIGHT
+    ========================== --}}
+    <div class="mx-auto flex max-w-7xl flex-col gap-4 pt-7 text-xs text-stone-500 sm:flex-row sm:items-center sm:justify-between">
+
+        <p>
+            © {{ now()->year }} Arjuna Trans.
+            Crafted for Premium Travel Experience.
+        </p>
+
+        <p>
+            Hubungi kami untuk informasi perjalanan.
+        </p>
+
+    </div>
+</footer>
 
     <a href="{{ $waLink }}" target="_blank" aria-label="Hubungi Admin melalui WhatsApp"
         class="fixed bottom-5 right-5 z-50 inline-flex items-center gap-2 rounded-full bg-emerald-500 px-5 py-3 text-sm font-black text-white shadow-2xl transition hover:-translate-y-1 hover:bg-emerald-600">
