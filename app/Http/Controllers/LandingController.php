@@ -10,8 +10,8 @@ use App\Models\Fleet;
 use App\Models\HeroSection;
 use App\Models\OrderStep;
 use App\Models\RentalRoute;
-// use App\Models\Service;
 use App\Models\Layanan;
+use App\Models\GalleryImage;
 
 class LandingController extends Controller
 {
@@ -27,6 +27,7 @@ class LandingController extends Controller
             'routes' => RentalRoute::with(['fleet', 'destination'])->where('is_active', true)->orderBy('sort_order')->get(),
             'orderSteps' => OrderStep::where('is_active', true)->orderBy('sort_order')->get(),
             'contact' => ContactSetting::first(),
+            'galleries' => GalleryImage::latest()->get(), // <-- 2. Tambahkan ini
         ]);
     }
 }

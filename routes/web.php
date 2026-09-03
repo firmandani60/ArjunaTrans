@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\LandingController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\GalleryController; 
 
 /*
 |--------------------------------------------------------------------------
@@ -120,4 +121,11 @@ Route::middleware('admin.auth')->group(function () {
         ->name('admin.kontak');
     Route::post('/admin/kontak', [AdminContentController::class, 'updateContact'])
         ->name('admin.kontak.update');
+        
+    Route::get('/admin/gallery', [GalleryController::class, 'index'])
+    ->name('admin.gallery');
+    Route::post('/admin/gallery', [GalleryController::class, 'store'])
+        ->name('admin.gallery.store');
+    Route::delete('/admin/gallery/{id}', [GalleryController::class, 'destroy'])
+        ->name('admin.gallery.destroy');
 });

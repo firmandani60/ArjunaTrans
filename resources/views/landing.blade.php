@@ -230,30 +230,23 @@
 
                 <!-- Grid Foto (Seragam) -->
                 <div class="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3" id="gallery-grid">
-                    <!-- Foto Armada -->
-                    <div class="gallery-item overflow-hidden rounded-[26px] shadow-sm transition duration-300 hover:shadow-xl cursor-pointer" data-category="armada" onclick="openLightbox(this)">
-                        <img src="https://loremflickr.com/800/600/bus?random=11" alt="Armada 1" class="h-64 w-full object-cover transition duration-500 hover:scale-110">
-                    </div>
-                    <!-- Foto Destinasi -->
-                    <div class="gallery-item overflow-hidden rounded-[26px] shadow-sm transition duration-300 hover:shadow-xl cursor-pointer" data-category="destinasi" onclick="openLightbox(this)">
-                        <img src="https://loremflickr.com/600/800/nature?random=12" alt="Destinasi 1" class="h-64 w-full object-cover transition duration-500 hover:scale-110">
-                    </div>
-                    <!-- Foto Armada -->
-                    <div class="gallery-item overflow-hidden rounded-[26px] shadow-sm transition duration-300 hover:shadow-xl cursor-pointer" data-category="armada" onclick="openLightbox(this)">
-                        <img src="https://loremflickr.com/800/800/bus?random=13" alt="Armada 2" class="h-64 w-full object-cover transition duration-500 hover:scale-110">
-                    </div>
-                    <!-- Foto Destinasi -->
-                    <div class="gallery-item overflow-hidden rounded-[26px] shadow-sm transition duration-300 hover:shadow-xl cursor-pointer" data-category="destinasi" onclick="openLightbox(this)">
-                        <img src="https://loremflickr.com/800/500/landscape?random=14" alt="Destinasi 2" class="h-64 w-full object-cover transition duration-500 hover:scale-110">
-                    </div>
-                    <!-- Foto Destinasi -->
-                    <div class="gallery-item overflow-hidden rounded-[26px] shadow-sm transition duration-300 hover:shadow-xl cursor-pointer" data-category="destinasi" onclick="openLightbox(this)">
-                        <img src="https://loremflickr.com/600/900/nature?random=15" alt="Destinasi 3" class="h-64 w-full object-cover transition duration-500 hover:scale-110">
-                    </div>
-                    <!-- Foto Armada -->
-                    <div class="gallery-item overflow-hidden rounded-[26px] shadow-sm transition duration-300 hover:shadow-xl cursor-pointer" data-category="armada" onclick="openLightbox(this)">
-                        <img src="https://loremflickr.com/800/600/transport?random=16" alt="Armada 3" class="h-64 w-full object-cover transition duration-500 hover:scale-110">
-                    </div>
+                    @forelse($galleries as $gallery)
+                        @php
+                            // Menentukan kategori untuk filter JS berdasarkan tipe relasi
+                            $category = ($gallery->imageable_type == 'App\Models\Fleet') ? 'armada' : 'destinasi';
+                        @endphp
+                        <div class="gallery-item overflow-hidden rounded-[26px] shadow-sm transition duration-300 hover:shadow-xl cursor-pointer" 
+                            data-category="{{ $category }}" 
+                            onclick="openLightbox(this)">
+                            <img src="{{ $imageUrl($gallery->image_path, 'https://picsum.photos/800/600') }}" 
+                                alt="Gallery {{ ucwords($category) }}" 
+                                class="h-64 w-full object-cover transition duration-500 hover:scale-110">
+                        </div>
+                    @empty
+                        <div class="col-span-full py-12 text-center text-stone-500">
+                            Koleksi foto galeri belum tersedia.
+                        </div>
+                    @endforelse
                 </div>
             </div>
         </section>

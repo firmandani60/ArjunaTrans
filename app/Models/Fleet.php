@@ -26,4 +26,9 @@ class Fleet extends Model
             'is_active' => 'boolean'
         ]; 
     }
+
+    public function galleries()
+    {
+        return $this->morphMany(GalleryImage::class, 'imageable');
+    }
 }

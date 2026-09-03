@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\GalleryImage;
 
 class Armada extends Model
 {
@@ -25,5 +26,11 @@ class Armada extends Model
     public function destinasi()
     {
         return $this->hasMany(Destinasi::class, 'armada_id', 'id_armada');
+    }
+
+    // Tambahkan ini di dalam class Armada dan class Destinasi
+    public function galleries()
+    {
+        return $this->morphMany(GalleryImage::class, 'imageable');
     }
 }
