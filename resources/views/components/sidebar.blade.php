@@ -40,6 +40,12 @@
             <i data-lucide="bus" class="h-5 w-5"></i>
             <span>Armada</span>
         </a>
+        <a href="{{ route('admin.gallery') }}" 
+            class="flex items-center gap-3 rounded-lg px-4 py-3 transition duration-300 hover:bg-orange-400 {{ request()->routeIs('admin.gallery') ? 'bg-orange-400 text-white font-medium' : 'text-gray-300' }}">
+            <!-- Menggunakan ikon lucide "images" -->
+            <i data-lucide="images" class="h-5 w-5"></i> 
+            <span>Gallery</span>
+        </a>
         <a href="{{ route('admin.destinasi') }}" 
             class="flex items-center gap-3 rounded-lg px-4 py-3 transition duration-300 hover:bg-orange-400 {{ request()->routeIs('admin.destinasi') ? 'bg-orange-400 text-white font-medium' : 'text-gray-300' }}">
             <i data-lucide="map-pinned" class="h-5 w-5"></i>
