@@ -34,10 +34,16 @@
     $waLink = 'https://wa.me/'.$waNumber;
     @endphp
 
-    <header class="sticky top-0 z-50 border-b border-orange-100/80 bg-[#fffaf7]/95 backdrop-blur">
+    <!-- tambah logo -->
+    <header class="sticky top-0 z-50 border-b border-orange-100/80 bg-[#fffaf7]/95 backdrop-blur">  
         <div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
-            <a href="#beranda" class="text-xl font-black tracking-tight"><span class="text-orange-600">Arjuna</span>
-                Trans</a>
+            <a href="#beranda" class="flex items-center gap-2 text-xl font-black tracking-tight">
+    <img src="/images/logo.png" alt="Arjuna Trans" class="h-10 w-10 object-contain">
+
+    <span>
+        <span class="text-orange-600">Arjuna</span> Trans
+    </span>
+</a>
             <nav class="hidden items-center gap-8 text-sm font-semibold text-stone-600 md:flex">
                 <a href="#beranda" class="transition hover:text-orange-600">Beranda</a>
                 <a href="#tentang" class="transition hover:text-orange-600">Tentang Kami</a>
@@ -46,8 +52,7 @@
                 <a href="#cara-pesan" class="transition hover:text-orange-600">Cara Pesan</a>
                 <a href="#kontak" class="transition hover:text-orange-600">Kontak</a>
             </nav>
-            <a href="{{ $waLink }}" target="_blank" class="rounded-full bg-orange-600 px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-orange-600/20 transition hover:bg-orange-700">Pesan
-                Sekarang</a>
+            <a href="https://order.arjunatrans.my.id/customer" target="_blank" class="rounded-full bg-orange-600 px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-orange-600/20 transition hover:bg-orange-700">Pesan Sekarang</a>
         </div>
     </header>
 
@@ -626,6 +631,11 @@
     <a href="{{ $waLink }}" target="_blank" aria-label="Hubungi Admin melalui WhatsApp"
         class="fixed bottom-5 right-5 z-50 inline-flex items-center gap-2 rounded-full bg-emerald-500 px-5 py-3 text-sm font-black text-white shadow-2xl transition hover:-translate-y-1 hover:bg-emerald-600">
         <i data-lucide="message-circle" class="h-5 w-5"></i><span class="hidden sm:inline">Hubungi Admin</span>
+    </a>
+    <!-- Kalender -->
+    <a href="https://order.arjunatrans.my.id/customer/calendar" target="_blank" aria-label="Kalender Pemesanan"
+        class="fixed bottom-20 right-5 z-50 inline-flex items-center gap-2 rounded-full bg-orange-500 px-8 py-3 text-sm font-black text-white shadow-2xl transition hover:-translate-y-1 hover:bg-orange-600">
+        <i data-lucide="calendar" class="h-5 w-5"></i><span class="hidden sm:inline">Lihat Jadwal</span>
     </a>
 
     <script>
