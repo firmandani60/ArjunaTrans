@@ -783,6 +783,7 @@ class AdminContentController extends Controller
         'kontak' => [
             'deskripsi' => $contact->description,
             'alamat' => $contact->address,
+            'maps_link' => $contact->maps_link,
 
             'whatsapp' => $contact->whatsapps()
     ->orderBy('sort_order')
@@ -797,6 +798,7 @@ class AdminContentController extends Controller
             'instagram' => $contact->instagram,
             'facebook' => $contact->facebook,
             'youtube' => $contact->youtube,
+            'tiktok' => $contact->tiktok,
         ],
     ]);
 }
