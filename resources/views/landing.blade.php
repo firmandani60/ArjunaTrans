@@ -7,7 +7,27 @@
     <meta name="description" content="Arjuna Trans - layanan transportasi wisata dan perjalanan rombongan dengan armada nyaman dan terawat.">
     <title>Arjuna Trans | Perjalanan Wisata Nyaman</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- 3. Konfigurasi Tailwind untuk memakai Poppins -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Script Alpine dan icon yang sudah ada -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <style>
@@ -21,7 +41,7 @@
     </style>
 </head>
 
-<body class="bg-[#fffaf7] text-stone-900 antialiased">
+<body class="bg-[#fffaf7] text-stone-800 antialiased">
     @php
     $imageUrl = function (?string $path, string $fallback) {
     if (!$path) return $fallback;
@@ -29,21 +49,20 @@
     return $path;
     return asset('storage/'.ltrim($path, '/'));
     };
-    $waNumber = preg_replace('/\D+/', '', $contact?->whatsapp ?? '628124320296');
+    $waNumber = preg_replace('/\D+/', '', $contact?->whatsapp ?? '6282142430296');
     if (str_starts_with($waNumber, '0')) $waNumber = '62'.substr($waNumber, 1);
     $waLink = 'https://wa.me/'.$waNumber;
     @endphp
 
     <!-- tambah logo -->
-    <header class="sticky top-0 z-50 border-b border-orange-100/80 bg-[#fffaf7]/95 backdrop-blur">  
+    <header class="sticky top-0 z-50 border-b border-orange-100/80 bg-[#fffaf7]/95 backdrop-blur">
         <div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
-            <a href="#beranda" class="flex items-center gap-2 text-xl font-black tracking-tight">
-    <img src="/images/logo.png" alt="Arjuna Trans" class="h-10 w-10 object-contain">
-
-    <span>
-        <span class="text-orange-600">Arjuna</span> Trans
-    </span>
-</a>
+            <a href="/" class="flex items-center gap-2 text-xl font-extrabold tracking-tight">
+                <img src="{{ asset('images/Logo_ArjunaTrans.png') }}" alt="Arjuna Trans" class="h-8 w-8 object-contain">
+                <span>
+                    <span class="text-orange-600">Arjuna</span> Trans
+                </span>
+            </a>
             <nav class="hidden items-center gap-8 text-sm font-semibold text-stone-600 md:flex">
                 <a href="#beranda" class="transition hover:text-orange-600">Beranda</a>
                 <a href="#tentang" class="transition hover:text-orange-600">Tentang Kami</a>
@@ -66,7 +85,7 @@
                     <span class="inline-flex items-center rounded-full border border-orange-400/30 bg-black/25 px-4 py-2 text-xs font-bold uppercase tracking-[.16em] text-orange-200">
                         {{ $hero?->badge ?: 'Mitra Perjalanan Terpercaya' }}
                     </span>
-                    <h1 class="mt-6 text-4xl font-black leading-tight sm:text-5xl lg:text-6xl">
+                    <h1 class="mt-6 text-4xl font-extrabold leading-tight sm:text-5xl lg:text-6xl">
                         {{ $hero?->title ?: 'Eksplorasi Perjalanan Tanpa Batas dengan Kenyamanan Eksekutif' }}
                     </h1>
                     <p class="mt-6 max-w-2xl text-base leading-8 text-stone-200 sm:text-lg">{{ $hero?->description }}
@@ -88,8 +107,8 @@
         <section class="px-5 py-20 lg:px-8">
             <div class="mx-auto max-w-7xl">
                 <div class="text-center">
-                    <p class="section-kicker text-xs font-black uppercase text-orange-600">Mengapa Memilih Kami</p>
-                    <h2 class="mt-3 text-3xl font-black tracking-tight sm:text-4xl">Keunggulan Arjuna Trans</h2>
+                    <p class="section-kicker text-xs font-extrabold uppercase text-orange-600">Mengapa Memilih Kami</p>
+                    <h2 class="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">Keunggulan Arjuna Trans</h2>
                     <div class="mx-auto mt-4 h-1 w-14 rounded-full bg-orange-600"></div>
                 </div>
                 <div class="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -98,7 +117,7 @@
                         <div class="grid h-12 w-12 place-items-center rounded-2xl bg-orange-50 text-orange-600">
                             <span class="material-symbols-outlined h-6 w-6">{{ $advantage->icon ?: 'star' }}</span>
                         </div>
-                        <h3 class="mt-6 text-lg font-black">{{ $advantage->title }}</h3>
+                        <h3 class="mt-6 text-xl font-bold">{{ $advantage->title }}</h3>
                         <p class="mt-3 text-sm leading-7 text-stone-600">{{ $advantage->description }}</p>
                     </article>
                     @empty
@@ -112,8 +131,8 @@
         <section class="bg-[#fff1eb] px-5 py-20 lg:px-8">
             <div class="mx-auto max-w-7xl">
                 <div class="text-center">
-                    <p class="section-kicker text-xs font-black uppercase text-orange-600">Fasilitas & Layanan</p>
-                    <h2 class="mt-3 text-3xl font-black sm:text-4xl">Prioritas Kenyamanan Anda</h2>
+                    <p class="section-kicker text-xs font-extrabold uppercase text-orange-600">Fasilitas & Layanan</p>
+                    <h2 class="mt-3 text-3xl font-extrabold sm:text-4xl">Prioritas Kenyamanan Anda</h2>
                     <div class="mx-auto mt-4 h-1 w-14 rounded-full bg-orange-600"></div>
                 </div>
                 <div class="mt-12 grid gap-6 md:grid-cols-2">
@@ -124,14 +143,14 @@
                         <div class="p-7">
                             <div class="flex items-start justify-between gap-4">
                                 <div>
-                                    <p class="text-xs font-black uppercase tracking-wider text-orange-600">Layanan</p>
+                                    <p class="text-xs font-extrabold uppercase tracking-wider text-orange-600">Layanan</p>
 
-                                    <h3 class="mt-2 text-2xl font-black">
+                                    <h3 class="mt-2 text-2xl font-extrabold">
                                         {{ $service->jenis_layanan }}
                                     </h3>
                                 </div>
 
-                                <span class="text-4xl font-black text-orange-100">
+                                <span class="text-4xl font-extrabold text-orange-100">
                                     {{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}
                                 </span>
                             </div>
@@ -159,9 +178,9 @@
                     @endforelse
                 </div>
                 <div>
-                    <p class="section-kicker text-xs font-black uppercase text-orange-600">
+                    <p class="section-kicker text-xs font-extrabold uppercase text-orange-600">
                         {{ $about?->eyebrow ?: 'Tentang Kami' }}</p>
-                    <h2 class="mt-3 text-3xl font-black leading-tight sm:text-4xl">
+                    <h2 class="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">
                         {{ $about?->title ?: 'Mendefinisikan Ulang Perjalanan Wisata Anda' }}</h2>
                     <p class="mt-6 text-base leading-8 text-stone-600">{{ $about?->description }}</p>
                     <div class="mt-8 grid gap-3 sm:grid-cols-2">
@@ -180,18 +199,18 @@
             <div class="mx-auto max-w-7xl">
                 <div class="flex flex-col justify-between gap-5 md:flex-row md:items-end">
                     <div>
-                        <p class="section-kicker text-xs font-black uppercase text-orange-600">Pilihan Kendaraan</p>
-                        <h2 class="mt-3 text-3xl font-black sm:text-4xl">Katalog Armada Kami</h2>
+                        <p class="section-kicker text-xs font-extrabold uppercase text-orange-600">Pilihan Kendaraan</p>
+                        <h2 class="mt-3 text-3xl font-extrabold sm:text-4xl">Katalog Armada Kami</h2>
                     </div>
                     <a href="{{ $waLink }}" target="_blank" class="text-sm font-extrabold text-orange-600 hover:text-orange-700">Tanyakan ketersediaan →</a>
                 </div>
-                <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     @foreach($fleets as $fleet)
                     <article class="overflow-hidden rounded-[26px] border border-stone-100 bg-[#fffaf7] shadow-sm">
                         <img src="{{ $imageUrl($fleet->image_path, 'https://picsum.photos/seed/fleet-'.$fleet->id.'/700/520') }}" alt="{{ $fleet->name }}" class="h-48 w-full object-cover">
                         <div class="p-5">
-                            <span class="rounded-full bg-orange-100 px-3 py-1 text-[11px] font-black uppercase text-orange-700">{{ $fleet->category }}</span>
-                            <h3 class="mt-4 text-lg font-black">{{ $fleet->name }}</h3>
+                            <span class="rounded-full bg-orange-100 px-3 py-1 text-[11px] font-extrabold uppercase text-orange-700">{{ $fleet->category }}</span>
+                            <h3 class="mt-4 text-lg font-extrabold">{{ $fleet->name }}</h3>
                             <p class="mt-2 text-sm leading-6 text-stone-600">{{ $fleet->description }}</p>
                             <div class="mt-5 flex flex-wrap gap-2 text-xs font-bold text-stone-600">
                                 @if($fleet->capacity)<span class="rounded-lg bg-white px-2.5 py-1.5">{{ $fleet->capacity }}</span>@endif
@@ -205,7 +224,7 @@
                             @if(($fleet->daily_price ?? 0) > 0)
                             <div class="mt-4 flex items-center justify-between border-t border-orange-100 pt-4">
                                 <span class="text-xs font-bold text-stone-500">Mulai dari</span>
-                                <span class="text-sm font-black text-orange-600">Rp
+                                <span class="text-sm font-extrabold text-orange-600">Rp
                                     {{ number_format($fleet->daily_price, 0, ',', '.') }} / hari</span>
                             </div>
                             @endif
@@ -221,8 +240,8 @@
             <div class="mx-auto max-w-7xl">
                 <!-- Judul Section -->
                 <div class="text-center">
-                    <p class="section-kicker text-xs font-black uppercase text-orange-600">Koleksi Visual</p>
-                    <h2 class="mt-3 text-3xl font-black sm:text-4xl">Galeri Arjuna Trans</h2>
+                    <p class="section-kicker text-xs font-extrabold uppercase text-orange-600">Koleksi Visual</p>
+                    <h2 class="mt-3 text-3xl font-extrabold sm:text-4xl">Galeri Arjuna Trans</h2>
                     <div class="mx-auto mt-4 h-1 w-14 rounded-full bg-orange-600"></div>
                 </div>
 
@@ -236,21 +255,17 @@
                 <!-- Grid Foto (Seragam) -->
                 <div class="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3" id="gallery-grid">
                     @forelse($galleries as $gallery)
-                        @php
-                            // Menentukan kategori untuk filter JS berdasarkan tipe relasi
-                            $category = ($gallery->imageable_type == 'App\Models\Fleet') ? 'armada' : 'destinasi';
-                        @endphp
-                        <div class="gallery-item overflow-hidden rounded-[26px] shadow-sm transition duration-300 hover:shadow-xl cursor-pointer" 
-                            data-category="{{ $category }}" 
-                            onclick="openLightbox(this)">
-                            <img src="{{ $imageUrl($gallery->image_path, 'https://picsum.photos/800/600') }}" 
-                                alt="Gallery {{ ucwords($category) }}" 
-                                class="h-64 w-full object-cover transition duration-500 hover:scale-110">
-                        </div>
+                    @php
+                    // Menentukan kategori untuk filter JS berdasarkan tipe relasi
+                    $category = ($gallery->imageable_type == 'App\Models\Fleet') ? 'armada' : 'destinasi';
+                    @endphp
+                    <div class="gallery-item overflow-hidden rounded-[26px] shadow-sm transition duration-300 hover:shadow-xl cursor-pointer" data-category="{{ $category }}" onclick="openLightbox(this)">
+                        <img src="{{ $imageUrl($gallery->image_path, 'https://picsum.photos/800/600') }}" alt="Gallery {{ ucwords($category) }}" class="h-64 w-full object-cover transition duration-500 hover:scale-110">
+                    </div>
                     @empty
-                        <div class="col-span-full py-12 text-center text-stone-500">
-                            Koleksi foto galeri belum tersedia.
-                        </div>
+                    <div class="col-span-full py-12 text-center text-stone-500">
+                        Koleksi foto galeri belum tersedia.
+                    </div>
                     @endforelse
                 </div>
             </div>
@@ -268,8 +283,8 @@
         <section id="tujuan" class="bg-[#3a2119] px-5 py-20 text-white lg:px-8">
             <div class="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[.9fr_1.1fr]">
                 <div>
-                    <p class="section-kicker text-xs font-black uppercase text-orange-300">Destinasi Populer</p>
-                    <h2 class="mt-3 text-3xl font-black leading-tight sm:text-4xl">Eksplorasi Keindahan Jawa dengan
+                    <p class="section-kicker text-xs font-extrabold uppercase text-orange-300">Destinasi Populer</p>
+                    <h2 class="mt-3 text-3xl font-extrabold leading-tight sm:text-4xl">Eksplorasi Keindahan Jawa dengan
                         Arjuna Trans</h2>
                     <p class="mt-5 text-sm leading-7 text-stone-300">Pilih destinasi favorit Anda. Data tujuan ini
                         langsung dikelola dari halaman admin.</p>
@@ -277,9 +292,9 @@
                         @foreach($destinations as $destination)
                         <div class="rounded-2xl bg-white/8 p-5 ring-1 ring-white/10">
                             <div class="flex gap-4">
-                                <span class="text-lg font-black text-orange-400">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+                                <span class="text-lg font-extrabold text-orange-400">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
                                 <div>
-                                    <h3 class="font-black">{{ $destination->name }}</h3>
+                                    <h3 class="font-extrabold">{{ $destination->name }}</h3>
                                     <p class="mt-1 text-xs leading-5 text-stone-300">{{ $destination->description }}</p>
                                 </div>
                             </div>
@@ -291,7 +306,7 @@
                     @foreach($destinations->take(7) as $destination)
                     <figure class="relative overflow-hidden rounded-[26px] {{ $loop->even ? 'translate-y-8' : '' }}">
                         <img src="{{ $imageUrl($destination->image_path, 'https://picsum.photos/seed/dest-'.$destination->id.'/650/760') }}" alt="{{ $destination->name }}" class="h-64 w-full object-cover">
-                        <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-5 pt-12 text-sm font-black">
+                        <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-5 pt-12 text-sm font-extrabold">
                             {{ $destination->name }}</figcaption>
                     </figure>
                     @endforeach
@@ -303,40 +318,58 @@
         <section class="px-5 py-20 lg:px-8">
             <div class="mx-auto max-w-7xl">
                 <div class="text-center">
-                    <p class="section-kicker text-xs font-black uppercase text-orange-600">Destinasi Populer</p>
-                    <h2 class="mt-3 text-3xl font-black sm:text-4xl">Daftar Rute & Harga Sewa</h2>
+                    <p class="section-kicker text-xs font-extrabold uppercase text-orange-600">Destinasi Populer</p>
+                    <h2 class="mt-3 text-3xl font-extrabold sm:text-4xl">Daftar Rute & Harga Sewa</h2>
                     <p class="mx-auto mt-4 max-w-3xl text-sm leading-7 text-stone-600">Harga dapat diperbarui dari panel
                         admin. Konfirmasi kembali untuk tanggal, durasi, dan titik penjemputan Anda.</p>
                 </div>
                 <div class="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
                     @foreach($routes as $route)
-                    <article class="overflow-hidden rounded-[26px] border border-orange-100 bg-white shadow-sm">
+                    {{-- Bungkus card dengan x-data untuk mendefinisikan state lokal per-card. Default seat 35. --}}
+                    <article x-data="{ 
+                            selectedSeat: 35, 
+                            price35: {{ $route->price_35 ?? 0 }}, 
+                            price41: {{ $route->price_41 ?? 0 }} 
+                        }" class="overflow-hidden rounded-[26px] border border-orange-100 bg-white shadow-sm flex flex-col">
                         <div class="relative">
                             <img src="{{ $imageUrl($route->image_path, 'https://picsum.photos/seed/route-'.$route->id.'/700/520') }}" alt="{{ $route->destination_name }}" class="h-44 w-full object-cover">
-                            <span class="absolute left-4 top-4 rounded-lg bg-orange-600 px-3 py-1 text-[10px] font-semibold uppercase text-white">{{ $route->fleet?->name ?? $route->fleet_name ?? 'Armada' }}</span>
+                            <span class="absolute left-4 top-4 rounded-lg bg-white px-3 py-1 text-[12px] font-bold text-orange-600">{{ $route->fleet?->name ?? $route->fleet_name ?? 'Armada' }}</span>
                         </div>
-                        <div class="p-5">
-                            <h3 class="text-xl font-black">{{ $route->destination?->name ?? $route->destination_name }}
-                            </h3>
-                            <p class="mt-1 text-xs leading-5 text-stone-500">{{ $route->route_description }}</p>
-                            <div class="mt-5 rounded-xl bg-orange-50 p-4">
-                                <div class="flex flex-col items-center justify-between gap-3">
-                                    <div class="flex flex-col items-center rounded-lg bg-white px-5 py-2 text-center">
-                                        <p class="text-[10px] font-bold uppercase text-stone-400">Armada</p>
-                                        <p class="mt-0.5 text-xs font-semibold text-stone-700">
-                                            {{ $route->fleet?->name ?? $route->fleet_name ?? '-' }}</p>
-                                    </div>
-                                    <div class="flex flex-col items-center px-3 py-2">
-                                        <p class="text-[10px] font-bold uppercase tracking-wider text-stone-500">Harga
-                                            Sewa</p>
-                                        <p class="mt-1 text-lg font-black text-orange-700">Rp
-                                            {{ number_format($route->price ?? $route->elf_long_price ?? $route->medium_bus_price ?? 0, 0, ',', '.') }}
-                                        </p>
+
+                        <div class="p-5 flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold">{{ $route->destination?->name ?? $route->destination_name }}</h3>
+                            <p class="mt-1 text-xs leading-5 text-stone-500 line-clamp-2">{{ $route->route_description }}</p>
+
+                            <div class="mt-auto pt-5">
+                                <div class="rounded-xl bg-orange-50 p-4">
+                                    <div class="flex flex-col items-center justify-between gap-3">
+
+                                        {{-- Tombol Pilihan Seat / Varian --}}
+                                        <div class="flex w-full rounded-lg bg-white p-1 shadow-sm">
+                                            <button @click="selectedSeat = 35" :class="selectedSeat === 35 ? ' bg-[#fff1eb] text-orange-700 font-bold' : 'text-stone-500 hover:bg-stone-50 font-semibold'"
+                                                class="flex-1 rounded-md py-1.5 text-xs transition-colors">
+                                                35 Seat
+                                            </button>
+                                            <button @click="selectedSeat = 41" :class="selectedSeat === 41 ? 'bg-[#fff1eb] text-orange-700 font-bold' : 'text-stone-500 hover:bg-stone-50 font-semibold'"
+                                                class="flex-1 rounded-md py-1.5 text-xs transition-colors">
+                                                41 Seat
+                                            </button>
+                                        </div>
+
+                                        {{-- Tampilan Harga Dinamis --}}
+                                        <div class="flex flex-col items-center px-3 py-1">
+                                            <p class="text-[10px] font-bold uppercase tracking-wider text-stone-500">Harga Sewa</p>
+                                            <p class="mt-1 text-xl font-extrabold text-orange-700">
+                                                Rp <span x-text="new Intl.NumberFormat('id-ID').format(selectedSeat === 35 ? price35 : price41)"></span>
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
+
+                                <a href="https://order.arjunatrans.my.id/customer" target="_blank" class="mt-5 block rounded-xl bg-orange-600 text-white px-4 py-2.5 text-center text-xs font-bold transition hover:bg-orange-500">
+                                    Pesan Armada →
+                                </a>
                             </div>
-                            <a href="{{ $waLink }}" target="_blank" class="mt-5 block rounded-xl bg-[#fff1eb] px-4 py-2.5 text-center text-xs font-black text-orange-700 transition hover:bg-orange-100">Pesan
-                                Armada →</a>
                         </div>
                     </article>
                     @endforeach
@@ -348,19 +381,19 @@
         <section id="cara-pesan" class="bg-[#25130f] px-5 py-20 text-white lg:px-8">
             <div class="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[.8fr_1.2fr]">
                 <div>
-                    <p class="section-kicker text-xs font-black uppercase text-orange-400">Alur Pemesanan</p>
-                    <h2 class="mt-3 text-3xl font-black sm:text-4xl">Cara Pemesanan Arjuna Pariwisata</h2>
+                    <p class="section-kicker text-xs font-extrabold uppercase text-orange-400">Alur Pemesanan</p>
+                    <h2 class="mt-3 text-3xl font-extrabold sm:text-4xl">Cara Pemesanan Arjuna Pariwisata</h2>
                     <p class="mt-5 text-sm leading-7 text-stone-300">Kami menyediakan alur booking ringkas agar Anda
                         tidak kehilangan waktu berharga.</p>
-                    <a href="{{ $waLink }}" target="_blank" class="mt-7 inline-flex items-center gap-2 rounded-xl bg-orange-600 px-5 py-3 text-sm font-black hover:bg-orange-700"><i data-lucide="message-circle" class="h-4 w-4"></i> Hubungi Admin
+                    <a href="{{ $waLink }}" target="_blank" class="mt-7 inline-flex items-center gap-2 rounded-xl bg-orange-600 px-5 py-3 text-sm font-extrabold hover:bg-orange-700"><i data-lucide="message-circle" class="h-4 w-4"></i> Hubungi Admin
                         Sekarang</a>
                 </div>
                 <div class="space-y-5">
                     @foreach($orderSteps as $step)
                     <div class="grid grid-cols-[56px_1fr] gap-5">
-                        <span class="grid h-12 w-12 place-items-center rounded-2xl bg-orange-600 font-black">{{ $loop->iteration }}</span>
+                        <span class="grid h-12 w-12 place-items-center rounded-2xl bg-orange-600 font-extrabold">{{ $loop->iteration }}</span>
                         <div class="border-b border-white/10 pb-5">
-                            <h3 class="font-black">{{ $step->title }}</h3>
+                            <h3 class="font-extrabold">{{ $step->title }}</h3>
                             <p class="mt-2 text-sm leading-7 text-stone-300">{{ $step->description }}</p>
                         </div>
                     </div>
@@ -370,271 +403,221 @@
         </section>
     </main>
 
-<footer id="kontak" class="bg-[#fffaf7] px-5 py-16 lg:px-8">
-    <div class="mx-auto grid max-w-7xl gap-10 border-b border-orange-100 pb-12 md:grid-cols-2 lg:grid-cols-4">
+    <footer id="kontak" class="bg-[#fffaf7] px-5 py-16 lg:px-8">
+        <div class="mx-auto grid max-w-7xl gap-10 border-b border-orange-100 pb-12 md:grid-cols-2 lg:grid-cols-4">
 
-        {{-- =========================
+            {{-- =========================
             ARJUNA TRANS + MAPS
         ========================== --}}
-        <div>
-            <div class="text-xl font-black">
-                <span class="text-orange-600">Arjuna</span> Trans
+            <div>
+                <div class="text-xl font-extrabold">
+                    <img src="{{ asset('images/Logo_ArjunaTrans.png') }}" alt="Arjuna Trans" class="inline h-8 w-8 object-contain">
+                    <span class="text-orange-600">Arjuna</span> Trans
+                </div>
+
+                <p class="mt-4 text-sm leading-7 text-stone-600">
+                    {{ $contact?->description }}
+                </p>
+
+                {{-- Google Maps --}}
+                @if($contact?->maps_link)
+                <div class="mt-5 overflow-hidden rounded-xl border border-orange-100 shadow-sm">
+                    <iframe src="{{ $contact->maps_link }}" width="100%" height="180" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin">
+                    </iframe>
+                </div>
+                @endif
             </div>
 
-            <p class="mt-4 text-sm leading-7 text-stone-600">
-                {{ $contact?->description }}
-            </p>
 
-            {{-- Google Maps --}}
-@if($contact?->maps_link)
-    <div class="mt-5 overflow-hidden rounded-xl border border-orange-100 shadow-sm">
-        <iframe
-            src="{{ $contact->maps_link }}"
-            width="100%"
-            height="180"
-            style="border:0;"
-            allowfullscreen=""
-            loading="lazy"
-            referrerpolicy="strict-origin-when-cross-origin">
-        </iframe>
-    </div>
-@endif
-        </div>
-
-
-        {{-- =========================
+            {{-- =========================
             NAVIGASI
         ========================== --}}
-        <div>
-            <h3 class="text-sm font-black uppercase tracking-wider text-orange-600">
-                Navigasi
-            </h3>
+            <div>
+                <h3 class="text-sm font-extrabold uppercase tracking-wider text-orange-600">
+                    Navigasi
+                </h3>
 
-            <div class="mt-4 space-y-3 text-sm text-stone-600">
-                <a class="block hover:text-orange-600" href="#beranda">
-                    Beranda
-                </a>
+                <div class="mt-4 space-y-3 text-sm text-stone-600">
+                    <a class="block hover:text-orange-600" href="#beranda">
+                        Beranda
+                    </a>
 
-                <a class="block hover:text-orange-600" href="#armada">
-                    Daftar Armada
-                </a>
+                    <a class="block hover:text-orange-600" href="#armada">
+                        Daftar Armada
+                    </a>
 
-                <a class="block hover:text-orange-600" href="#tujuan">
-                    Pilihan Tujuan
-                </a>
+                    <a class="block hover:text-orange-600" href="#tujuan">
+                        Pilihan Tujuan
+                    </a>
 
-                <a class="block hover:text-orange-600" href="#cara-pesan">
-                    Cara Pesan
-                </a>
+                    <a class="block hover:text-orange-600" href="#cara-pesan">
+                        Cara Pesan
+                    </a>
+                </div>
             </div>
-        </div>
 
 
-        {{-- =========================
+            {{-- =========================
             INFORMASI
         ========================== --}}
-        <div>
-            <h3 class="text-sm font-black uppercase tracking-wider text-orange-600">
-                Informasi
-            </h3>
+            <div>
+                <h3 class="text-sm font-extrabold uppercase tracking-wider text-orange-600">
+                    Informasi
+                </h3>
 
-            <div class="mt-4 space-y-3 text-sm text-stone-600">
-                <p>Syarat & Ketentuan</p>
-                <p>Kebijakan Privasi</p>
-                <p>Testimoni</p>
-                <p>Karir Sopir</p>
+                <div class="mt-4 space-y-3 text-sm text-stone-600">
+                    <p>Syarat & Ketentuan</p>
+                    <p>Kebijakan Privasi</p>
+                    <p>Testimoni</p>
+                    <p>Karir Sopir</p>
+                </div>
             </div>
-        </div>
 
 
-        {{-- =========================
+            {{-- =========================
             KANTOR KAMI
         ========================== --}}
-        <div>
-            <h3 class="text-sm font-black uppercase tracking-wider text-orange-600">
-                Kantor Kami
-            </h3>
+            <div>
+                <h3 class="text-sm font-extrabold uppercase tracking-wider text-orange-600">
+                    Kantor Kami
+                </h3>
 
-            <div class="mt-4 space-y-4 text-sm leading-6 text-stone-600">
+                <div class="mt-4 space-y-4 text-sm leading-6 text-stone-600">
 
-                {{-- Alamat --}}
-                @if($contact?->address)
+                    {{-- Alamat --}}
+                    @if($contact?->address)
                     <p class="flex gap-3">
-                        <i
-                            data-lucide="map-pin"
-                            class="mt-1 h-5 w-5 shrink-0 text-orange-600">
+                        <i data-lucide="map-pin" class="mt-1 h-5 w-5 shrink-0 text-orange-600">
                         </i>
 
                         <span>
                             {{ $contact->address }}
                         </span>
                     </p>
-                @endif
+                    @endif
 
 
-                {{-- WhatsApp --}}
-                @if($contact?->whatsapps && $contact->whatsapps->count())
+                    {{-- WhatsApp --}}
+                    @if($contact?->whatsapps && $contact->whatsapps->count())
                     @foreach($contact->whatsapps as $wa)
-                        <a
-                            href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $wa->phone_number) }}"
-                            target="_blank"
-                            class="flex gap-3 hover:text-orange-600">
+                    <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $wa->phone_number) }}" target="_blank" class="flex gap-3 hover:text-orange-600">
 
-                            <i
-                                data-lucide="phone"
-                                class="mt-1 h-5 w-5 shrink-0 text-orange-600">
-                            </i>
+                        <i data-lucide="phone" class="mt-1 h-5 w-5 shrink-0 text-orange-600">
+                        </i>
 
-                            <span>
-                                {{ $wa->phone_number }}
-                            </span>
-                        </a>
+                        <span>
+                            {{ $wa->phone_number }}
+                        </span>
+                    </a>
                     @endforeach
-                @endif
+                    @endif
 
 
-                {{-- Email --}}
-                @if($contact?->email)
-                    <a
-                        href="mailto:{{ $contact->email }}"
-                        class="flex gap-3 hover:text-orange-600">
+                    {{-- Email --}}
+                    @if($contact?->email)
+                    <a href="mailto:{{ $contact->email }}" class="flex gap-3 hover:text-orange-600">
 
-                        <i
-                            data-lucide="mail"
-                            class="mt-1 h-5 w-5 shrink-0 text-orange-600">
+                        <i data-lucide="mail" class="mt-1 h-5 w-5 shrink-0 text-orange-600">
                         </i>
 
                         <span>
                             {{ $contact->email }}
                         </span>
                     </a>
-                @endif
+                    @endif
 
 
-                {{-- =========================
+                    {{-- =========================
     SOCIAL MEDIA
 ========================== --}}
-<div class="flex items-center gap-4 pt-2">
+                    <div class="flex items-center gap-4 pt-2">
 
-    {{-- Instagram --}}
-    @if($contact?->instagram)
-        <a
-            href="{{ $contact->instagram }}"
-            target="_blank"
-            rel="noopener noreferrer"
-            title="Instagram"
-            class="text-stone-500 transition hover:text-orange-600">
+                        {{-- Instagram --}}
+                        @if($contact?->instagram)
+                        <a href="{{ $contact->instagram }}" target="_blank" rel="noopener noreferrer" title="Instagram" class="text-stone-500 transition hover:text-orange-600">
 
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                class="h-5 w-5">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
 
-                <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 2A3.75 3.75 0 0 0 4 7.75v8.5A3.75 3.75 0 0 0 7.75 20h8.5A3.75 3.75 0 0 0 20 16.25v-8.5A3.75 3.75 0 0 0 16.25 4h-8.5Zm4.25 3.25a4.75 4.75 0 1 1 0 9.5 4.75 4.75 0 0 1 0-9.5Zm0 2a2.75 2.75 0 1 0 0 5.5 2.75 2.75 0 0 0 0-5.5Zm5-2.25a1.125 1.125 0 1 1 0 2.25 1.125 1.125 0 0 1 0-2.25Z"/>
-            </svg>
-        </a>
-    @endif
+                                <path
+                                    d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 2A3.75 3.75 0 0 0 4 7.75v8.5A3.75 3.75 0 0 0 7.75 20h8.5A3.75 3.75 0 0 0 20 16.25v-8.5A3.75 3.75 0 0 0 16.25 4h-8.5Zm4.25 3.25a4.75 4.75 0 1 1 0 9.5 4.75 4.75 0 0 1 0-9.5Zm0 2a2.75 2.75 0 1 0 0 5.5 2.75 2.75 0 0 0 0-5.5Zm5-2.25a1.125 1.125 0 1 1 0 2.25 1.125 1.125 0 0 1 0-2.25Z" />
+                            </svg>
+                        </a>
+                        @endif
 
 
-    {{-- Facebook --}}
-    @if($contact?->facebook)
-        <a
-            href="{{ $contact->facebook }}"
-            target="_blank"
-            rel="noopener noreferrer"
-            title="Facebook"
-            class="text-stone-500 transition hover:text-orange-600">
+                        {{-- Facebook --}}
+                        @if($contact?->facebook)
+                        <a href="{{ $contact->facebook }}" target="_blank" rel="noopener noreferrer" title="Facebook" class="text-stone-500 transition hover:text-orange-600">
 
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                class="h-5 w-5">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
 
-                <path d="M13.5 21v-8h2.75l.5-3H13.5V8.25c0-.9.3-1.5 1.6-1.5h1.8V4.05c-.3-.05-1.3-.15-2.5-.15-2.5 0-4.15 1.5-4.15 4.3V10H7.5v3h2.75v8h3.25Z"/>
-            </svg>
-        </a>
-    @endif
+                                <path d="M13.5 21v-8h2.75l.5-3H13.5V8.25c0-.9.3-1.5 1.6-1.5h1.8V4.05c-.3-.05-1.3-.15-2.5-.15-2.5 0-4.15 1.5-4.15 4.3V10H7.5v3h2.75v8h3.25Z" />
+                            </svg>
+                        </a>
+                        @endif
 
 
-    {{-- YouTube --}}
-    @if($contact?->youtube)
-        <a
-            href="{{ $contact->youtube }}"
-            target="_blank"
-            rel="noopener noreferrer"
-            title="YouTube"
-            class="text-stone-500 transition hover:text-orange-600">
+                        {{-- YouTube --}}
+                        @if($contact?->youtube)
+                        <a href="{{ $contact->youtube }}" target="_blank" rel="noopener noreferrer" title="YouTube" class="text-stone-500 transition hover:text-orange-600">
 
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                class="h-5 w-5">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
 
-                <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.5 15.5v-7l6 3.5-6 3.5Z"/>
-            </svg>
-        </a>
-    @endif
+                                <path
+                                    d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.5 15.5v-7l6 3.5-6 3.5Z" />
+                            </svg>
+                        </a>
+                        @endif
 
 
-    {{-- TikTok --}}
-    @if($contact?->tiktok)
-        <a
-            href="{{ $contact->tiktok }}"
-            target="_blank"
-            rel="noopener noreferrer"
-            title="TikTok"
-            class="text-stone-500 transition hover:text-orange-600">
+                        {{-- TikTok --}}
+                        @if($contact?->tiktok)
+                        <a href="{{ $contact->tiktok }}" target="_blank" rel="noopener noreferrer" title="TikTok" class="text-stone-500 transition hover:text-orange-600">
 
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                class="h-5 w-5">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
 
-                <path d="M19.589 6.686a4.793 4.793 0 0 1-3.77-3.77A4.796 4.796 0 0 1 15.734 2h-3.268v13.574a2.816 2.816 0 1 1-1.934-2.674V9.58a6.08 6.08 0 1 0 5.286 6V9.394a8.018 8.018 0 0 0 4.686 1.502V7.63a4.788 4.788 0 0 1-.915-.944z"/>
-            </svg>
-        </a>
-    @endif
+                                <path
+                                    d="M19.589 6.686a4.793 4.793 0 0 1-3.77-3.77A4.796 4.796 0 0 1 15.734 2h-3.268v13.574a2.816 2.816 0 1 1-1.934-2.674V9.58a6.08 6.08 0 1 0 5.286 6V9.394a8.018 8.018 0 0 0 4.686 1.502V7.63a4.788 4.788 0 0 1-.915-.944z" />
+                            </svg>
+                        </a>
+                        @endif
 
-</div>
+                    </div>
 
                 </div>
 
             </div>
         </div>
 
-    </div>
+        </div>
 
 
 
 
-    {{-- =========================
+        {{-- =========================
          COPYRIGHT
     ========================== --}}
-    <div class="mx-auto flex max-w-7xl flex-col gap-4 pt-7 text-xs text-stone-500 sm:flex-row sm:items-center sm:justify-between">
+        <div class="mx-auto flex max-w-7xl flex-col gap-4 pt-7 text-xs text-stone-500 sm:flex-row sm:items-center sm:justify-between">
 
-        <p>
-            © {{ now()->year }} Arjuna Trans.
-            Crafted for Premium Travel Experience.
-        </p>
+            <p>
+                © {{ now()->year }} Arjuna Trans.
+                Crafted for Premium Travel Experience.
+            </p>
 
-        <p>
-            Hubungi kami untuk informasi perjalanan.
-        </p>
+            <p>
+                Hubungi kami untuk informasi perjalanan.
+            </p>
 
-    </div>
-</footer>
+        </div>
+    </footer>
 
     <a href="{{ $waLink }}" target="_blank" aria-label="Hubungi Admin melalui WhatsApp"
-        class="fixed bottom-5 right-5 z-50 inline-flex items-center gap-2 rounded-full bg-emerald-500 px-5 py-3 text-sm font-black text-white shadow-2xl transition hover:-translate-y-1 hover:bg-emerald-600">
+        class="fixed bottom-5 right-5 z-50 inline-flex items-center gap-2 rounded-full bg-emerald-500 px-5 py-3 text-sm font-extrabold text-white shadow-2xl transition hover:-translate-y-1 hover:bg-emerald-600">
         <i data-lucide="message-circle" class="h-5 w-5"></i><span class="hidden sm:inline">Hubungi Admin</span>
     </a>
     <!-- Kalender -->
     <a href="https://order.arjunatrans.my.id/customer/calendar" target="_blank" aria-label="Kalender Pemesanan"
-        class="fixed bottom-20 right-5 z-50 inline-flex items-center gap-2 rounded-full bg-orange-500 px-8 py-3 text-sm font-black text-white shadow-2xl transition hover:-translate-y-1 hover:bg-orange-600">
+        class="fixed bottom-20 right-5 z-50 inline-flex items-center gap-2 rounded-full bg-orange-500 px-8 py-3 text-sm font-extrabold text-white shadow-2xl transition hover:-translate-y-1 hover:bg-orange-600">
         <i data-lucide="calendar" class="h-5 w-5"></i><span class="hidden sm:inline">Lihat Jadwal</span>
     </a>
 
