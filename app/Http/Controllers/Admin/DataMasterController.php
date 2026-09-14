@@ -14,9 +14,9 @@ class DataMasterController extends Controller
     public function index()
     {
         return view('admin.data-master', [
-            'armada' => Fleet::orderBy('sort_order')->orderBy('id')->get()->map(fn (Fleet $item) => $this->fleetPayload($item))->values(),
-            'destinasi' => Destination::orderBy('sort_order')->orderBy('id')->get()->map(fn (Destination $item) => $this->destinationPayload($item))->values(),
-            'rute' => RentalRoute::with(['fleet', 'destination'])->orderBy('sort_order')->orderBy('id')->get()->map(fn (RentalRoute $item) => $this->routePayload($item))->values(),
+            'armada' => Fleet::orderBy('sort_order')->orderBy('id')->get()->map(fn(Fleet $item) => $this->fleetPayload($item))->values(),
+            'destinasi' => Destination::orderBy('sort_order')->orderBy('id')->get()->map(fn(Destination $item) => $this->destinationPayload($item))->values(),
+            'rute' => RentalRoute::with(['fleet', 'destination'])->orderBy('sort_order')->orderBy('id')->get()->map(fn(RentalRoute $item) => $this->routePayload($item))->values(),
         ]);
     }
 
@@ -183,7 +183,8 @@ class DataMasterController extends Controller
             'destination_id' => ['required', 'integer', 'exists:destinations,id'],
             'fleet_id' => ['required', 'integer', 'exists:fleets,id'],
             'route_description' => ['nullable', 'string', 'max:1000'],
-            'price' => ['required', 'integer', 'min:0'],
+            'price_35' => ['nullable', 'integer', 'min:0'], // Ubah dari price
+            'price_41' => ['nullable', 'integer', 'min:0'], // Tambahan untuk seat 41
             'image_path' => ['nullable', 'string'],
             'is_active' => ['required', 'boolean'],
         ]);
@@ -200,10 +201,27 @@ class DataMasterController extends Controller
             'fleet_id' => $fleet->id,
             'fleet_name' => $fleet->name,
             'route_description' => $data['route_description'] ?? null,
-            'price' => $data['price'],
+            'price_35' => $data['price_35'] ?? 0, // Sesuaikan
+            'price_41' => $data['price_41'] ?? 0, // Sesuaikan
             'image_path' => $data['image_path'] ?? null,
             'category' => $fleet->category,
             'is_active' => $data['is_active'],
+        ];
+    }
+
+    private function routePayload(RentalRoute $item): array
+    {
+        return [
+            'id' => $item->id,
+            'destination_id' => $item->destination_id,
+            'destination_name' => $item->destination?->name ?? $item->destination_name,
+            'fleet_id' => $item->fleet_id,
+            'fleet_name' => $item->fleet?->name ?? $item->fleet_name,
+            'route_description' => $item->route_description,
+            'price_35' => $item->price_35 !== null ? (int) $item->price_35 : null, // Payload frontend
+            'price_41' => $item->price_41 !== null ? (int) $item->price_41 : null,
+            'image_path' => $item->image_path,
+            'is_active' => (bool) $item->is_active,
         ];
     }
 
@@ -230,21 +248,6 @@ class DataMasterController extends Controller
             'name' => $item->name,
             'route' => $item->route,
             'description' => $item->description,
-            'image_path' => $item->image_path,
-            'is_active' => (bool) $item->is_active,
-        ];
-    }
-
-    private function routePayload(RentalRoute $item): array
-    {
-        return [
-            'id' => $item->id,
-            'destination_id' => $item->destination_id,
-            'destination_name' => $item->destination?->name ?? $item->destination_name,
-            'fleet_id' => $item->fleet_id,
-            'fleet_name' => $item->fleet?->name ?? $item->fleet_name,
-            'route_description' => $item->route_description,
-            'price' => $item->price !== null ? (int) $item->price : null,
             'image_path' => $item->image_path,
             'is_active' => (bool) $item->is_active,
         ];

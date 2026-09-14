@@ -2,12 +2,8 @@
 
     <!-- Search -->
     <div class="relative">
-        <i data-lucide="search" class="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400"></i>
-        <input
-            type="text"
-            placeholder="Cari..."
-            class="w-80 rounded-full border border-gray-300 py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-orange-400"
-        >
+        <i data-lucide="search" class="absolute left-3 top-8 h-5 w-5 -translate-y-1/2 text-gray-400"></i>
+        <input type="text" placeholder="Cari..." class="w-80 rounded-full border border-gray-300 py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-orange-400">
     </div>
 
     <!-- Actions -->

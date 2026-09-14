@@ -13,14 +13,14 @@
 
     <!-- Layout Dua Kolom (Kiri: Form/Data, Kanan: Preview) -->
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_1.1fr]">
-        
+
         <!-- SISI KIRI: PENGATURAN GALERI -->
         <section class="space-y-6">
             <!-- Alert Messages -->
             @if(session('success'))
-                <div class="rounded-xl bg-emerald-50 p-4 border border-emerald-200">
-                    <p class="text-sm font-bold text-emerald-700">{{ session('success') }}</p>
-                </div>
+            <div class="rounded-xl bg-emerald-50 p-4 border border-emerald-200">
+                <p class="text-sm font-bold text-emerald-700">{{ session('success') }}</p>
+            </div>
             @endif
 
             <!-- Form Upload Dinamis -->
@@ -37,12 +37,12 @@
                             <option value="">-- Pilih Armada / Destinasi --</option>
                             <optgroup label="Daftar Armada">
                                 @foreach($armadas as $armada)
-                                    <option value="App\Models\Fleet,{{ $armada->id }}">Armada: {{ $armada->name ?? $armada->nama_armada ?? 'ID '.$armada->id }}</option>
+                                <option value="App\Models\Fleet,{{ $armada->id }}">Armada: {{ $armada->name ?? $armada->nama_armada ?? 'ID '.$armada->id }}</option>
                                 @endforeach
                             </optgroup>
                             <optgroup label="Daftar Destinasi">
                                 @foreach($destinasis as $destinasi)
-                                    <option value="App\Models\Destination,{{ $destinasi->id }}">Destinasi: {{ $destinasi->name ?? $destinasi->nama_destinasi ?? 'ID '.$destinasi->id }}</option>
+                                <option value="App\Models\Destination,{{ $destinasi->id }}">Destinasi: {{ $destinasi->name ?? $destinasi->nama_destinasi ?? 'ID '.$destinasi->id }}</option>
                                 @endforeach
                             </optgroup>
                         </select>
@@ -53,9 +53,8 @@
                         <div class="space-y-3">
                             <template x-for="(input, index) in imageInputs" :key="input.id">
                                 <div class="flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-3">
-                                    <input type="file" name="images[]" accept="image/jpeg,image/png,image/webp" required 
-                                           @change="handleFileChange($event, index)"
-                                           class="block w-full text-xs text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-orange-100 file:px-3 file:py-1.5 file:font-bold file:text-orange-700">
+                                    <input type="file" name="images[]" accept="image/jpeg,image/png,image/webp" required @change="handleFileChange($event, index)"
+                                        class="block w-full text-xs text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-orange-100 file:px-3 file:py-1.5 file:font-bold file:text-orange-700">
                                     <button type="button" @click="removeInput(index)" class="rounded-lg p-1.5 text-rose-500 hover:bg-rose-50">
                                         <i data-lucide="trash-2" class="h-4 w-4"></i>
                                     </button>
@@ -68,7 +67,7 @@
                     </div>
 
                     <div class="pt-3 border-t border-orange-200/60 text-right">
-                        <button type="submit" class="rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 px-5 py-2.5 text-sm font-bold text-white shadow-md hover:from-orange-600 hover:to-orange-700">
+                        <button type="submit" class="rounded-xl bg-orange-500 px-5 py-2.5 text-sm font-bold text-white shadow-md hover:from-orange-600 hover:to-orange-700">
                             Simpan ke Galeri
                         </button>
                     </div>
@@ -80,17 +79,17 @@
                 <h3 class="mb-4 text-base font-black text-slate-900 border-b border-slate-100 pb-3">Koleksi Terunggah ({{ $galleries->count() }})</h3>
                 <div class="grid grid-cols-2 gap-3 sm:grid-cols-3">
                     @forelse($galleries as $gallery)
-                        <div class="group relative overflow-hidden rounded-xl border border-slate-200">
-                            <img src="{{ asset('storage/' . $gallery->image_path) }}" class="h-24 w-full object-cover">
-                            <form action="{{ route('admin.gallery.destroy', $gallery->id) }}" method="POST" class="absolute right-1 top-1" onsubmit="return confirm('Hapus gambar ini?');">
-                                @csrf @method('DELETE')
-                                <button type="submit" class="rounded bg-rose-500/90 p-1 text-white backdrop-blur hover:bg-rose-600">
-                                    <i data-lucide="x" class="h-3 w-3"></i>
-                                </button>
-                            </form>
-                        </div>
+                    <div class="group relative overflow-hidden rounded-xl border border-slate-200">
+                        <img src="{{ asset('storage/' . $gallery->image_path) }}" class="h-24 w-full object-cover">
+                        <form action="{{ route('admin.gallery.destroy', $gallery->id) }}" method="POST" class="absolute right-1 top-1" onsubmit="return confirm('Hapus gambar ini?');">
+                            @csrf @method('DELETE')
+                            <button type="submit" class="rounded bg-rose-500/90 p-1 text-white backdrop-blur hover:bg-rose-600">
+                                <i data-lucide="x" class="h-3 w-3"></i>
+                            </button>
+                        </form>
+                    </div>
                     @empty
-                        <p class="col-span-full text-center text-xs text-slate-400">Belum ada foto.</p>
+                    <p class="col-span-full text-center text-xs text-slate-400">Belum ada foto.</p>
                     @endforelse
                 </div>
             </div>
@@ -115,12 +114,12 @@
 
                 <!-- Grid Preview (Gabungan DB + Foto yang sedang dipilih) -->
                 <div class="mt-6 grid grid-cols-2 gap-3">
-                    
+
                     <!-- Merender gambar dari database yang sudah tersimpan -->
                     @foreach($galleries->take(6) as $gallery)
-                        <div class="overflow-hidden rounded-xl shadow-sm border border-stone-100">
-                            <img src="{{ asset('storage/' . $gallery->image_path) }}" class="h-28 w-full object-cover">
-                        </div>
+                    <div class="overflow-hidden rounded-xl shadow-sm border border-stone-100">
+                        <img src="{{ asset('storage/' . $gallery->image_path) }}" class="h-28 w-full object-cover">
+                    </div>
                     @endforeach
 
                     <!-- Merender preview file lokal yang barusan dipilih user via Alpine -->
@@ -134,13 +133,13 @@
                 </div>
             </div>
         </x-live-preview>
-        
+
     </div>
 </div>
 
 @push('scripts')
 <script>
-function galleryPage() {
+    function galleryPage() {
     return {
         imageInputs: [{ id: Date.now(), preview: null }],
         

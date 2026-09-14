@@ -4,8 +4,11 @@
 
 <div x-data="heroEditor()" class="space-y-6">
     <section class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <button type="button" @click="saveHero()" class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 px-5 py-2.5 text-sm font-bold text-white shadow-[0_10px_25px_rgba(249,115,22,0.25)] transition hover:-translate-y-0.5 hover:from-orange-600 hover:to-orange-700">
-            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
+        <button type="button" @click="saveHero()"
+            class="inline-flex items-center gap-2 rounded-xl bg-orange-500 px-5 py-2.5 text-sm font-bold text-white shadow-[0_10px_25px_rgba(249,115,22,0.25)] transition hover:-translate-y-0.5 hover:from-orange-600 hover:to-orange-700">
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+            </svg>
             Simpan Perubahan
         </button>
     </section>
@@ -22,7 +25,8 @@
                     </div>
                     <div>
                         <label class="mb-1 block text-sm font-bold text-slate-700">Sub-deskripsi</label>
-                        <textarea x-model="hero.sub_deskripsi" rows="3" class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:border-sky-500 focus:ring-2 focus:ring-sky-100" placeholder="Nikmati pengalaman perjalanan terbaik..."></textarea>
+                        <textarea x-model="hero.sub_deskripsi" rows="3" class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:border-sky-500 focus:ring-2 focus:ring-sky-100"
+                            placeholder="Nikmati pengalaman perjalanan terbaik..."></textarea>
                     </div>
                     <div class="grid grid-cols-2 gap-4">
                         <div>
@@ -51,7 +55,9 @@
 
                     <div class="mt-4">
                         <label class="block cursor-pointer rounded-2xl border-2 border-dashed border-sky-200 bg-slate-50 px-5 py-6 text-center transition hover:border-sky-400 hover:bg-sky-50">
-                            <svg class="mx-auto h-10 w-10 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                            <svg class="mx-auto h-10 w-10 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                            </svg>
                             <span class="mt-2 block text-sm font-extrabold text-slate-800">Drag & drop new image</span>
                             <span class="mt-1 block text-xs text-slate-500">JPEG, PNG, WebP up to 5MB</span>
                             <input type="file" accept="image/*" class="sr-only" @change="handleImageUpload($event)">
@@ -63,22 +69,17 @@
 
         <x-live-preview>
             <div class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-inner">
-                <div class="relative h-64 w-full bg-cover bg-center"
-                    :style="'background-image: url(' + (hero.gambar || 'https://picsum.photos/seed/arjuna/800/400') + ');'">
+                <div class="relative h-64 w-full bg-cover bg-center" :style="'background-image: url(' + (hero.gambar || 'https://picsum.photos/seed/arjuna/800/400') + ');'">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/20"></div>
                     <div class="absolute inset-0 flex flex-col items-center justify-center px-6 text-center text-white">
                         <h1 class="text-2xl font-extrabold drop-shadow-lg" x-text="hero.judul || 'Perjalanan Aman dan Nyaman'">
                             Perjalanan Aman dan Nyaman
                         </h1>
 
-                        <p class="mt-2 max-w-md text-sm leading-6 text-white/90 drop-shadow"
-                            x-text="hero.sub_deskripsi || 'Nikmati pengalaman perjalanan terbaik bersama armada modern kami.'">
+                        <p class="mt-2 max-w-md text-sm leading-6 text-white/90 drop-shadow" x-text="hero.sub_deskripsi || 'Nikmati pengalaman perjalanan terbaik bersama armada modern kami.'">
                             Nikmati pengalaman perjalanan terbaik bersama armada modern kami.
                         </p>
-                        <a :href="hero.tombol_link || '#'"
-                            class="mt-4 inline-block rounded-full bg-orange-500 px-8 py-2 text-sm font-bold text-white shadow-lg transition hover:bg-orange-600"
-                            x-text="hero.tombol_label || 'Pesan Sekarang'"
-                        >
+                        <a :href="hero.tombol_link || '#'" class="mt-4 inline-block rounded-full bg-orange-500 px-8 py-2 text-sm font-bold text-white shadow-lg transition hover:bg-orange-600" x-text="hero.tombol_label || 'Pesan Sekarang'">
                             Pesan Sekarang
                         </a>
                     </div>

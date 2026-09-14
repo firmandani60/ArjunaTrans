@@ -13,7 +13,8 @@ class RentalRoute extends Model
         'fleet_id',
         'fleet_name',
         'route_description',
-        'price',
+        'price_35',
+        'price_41',
         // Kolom lama dipertahankan agar migrasi dari data sebelumnya tetap aman.
         'elf_long_price',
         'medium_bus_price',

@@ -8,15 +8,40 @@
     <title>@yield('title', 'Admin Arjuna Trans')</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite('resources/js/dashboard-chart.js')
 
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- 1. Script Tailwind CDN Bawaan Anda -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- 2. Import Font Poppins dari Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- 3. Konfigurasi Tailwind untuk memakai Poppins -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Script Alpine dan icon yang sudah ada -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-
     <style>
         [x-cloak] {
             display: none !important;
+        }
+
+        .section-kicker {
+            letter-spacing: .18em;
         }
     </style>
 </head>
